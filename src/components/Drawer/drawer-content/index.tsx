@@ -36,8 +36,8 @@ function NavContent() {
     return (
         <div className="dapp-sidebar">
             <div className="branding-header">
-                <Link href="https://wonderland.money" target="_blank">
-                    <img alt="" src={WonderlandIcon} />
+                <Link href="https://metabank.money" target="_blank">
+                    <img alt="metabank-icon" src="./android-chrome-192x192.png" />
                 </Link>
 
                 {address && (
