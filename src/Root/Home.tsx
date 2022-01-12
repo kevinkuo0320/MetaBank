@@ -9,6 +9,7 @@ function App() {
     const dispatch = useDispatch();
 
     const { provider, chainID, connected } = useWeb3Context();
+    console.log(provider, chainID, "hello");
 
     const loadApp = useCallback(
         loadProvider => {

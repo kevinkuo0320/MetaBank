@@ -45,13 +45,15 @@ function Stake() {
     const stakingAPY = useSelector<IReduxState, number>(state => {
         return state.app.stakingAPY;
     });
-    const stakingTVL = useSelector<IReduxState, number>(state => {
-        return state.app.stakingTVL;
+    const getLarryBalance = useSelector<IReduxState, string>(state => {
+        return state.app.larryBalance;
     });
 
     const pendingTransactions = useSelector<IReduxState, IPendingTxn[]>(state => {
         return state.pendingTransactions;
     });
+
+    console.log("test100", getLarryBalance);
 
     const setMax = () => {
         if (view === 0) {
@@ -196,15 +198,6 @@ function Stake() {
                                                         </div>
                                                     )}
                                                 </div>
-                                            )}
-                                        </div>
-
-                                        <div className="stake-card-action-help-text">
-                                            {address && ((!hasAllowance("time") && view === 0) || (!hasAllowance("memo") && view === 1)) && (
-                                                <p>
-                                                    Note: The "Approve" transaction is only needed when staking/unstaking for the first time; subsequent staking/unstaking only
-                                                    requires you to perform the "Stake" or "Unstake" transaction.
-                                                </p>
                                             )}
                                         </div>
                                     </div>
