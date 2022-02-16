@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { getAddresses } from "../../constants";
-import { StakingContract, MemoTokenContract, TimeTokenContract } from "../../abi";
+import { StakingContract, MemoTokenContract, TimeTokenContract, LarryContract } from "../../abi";
 import { setAll } from "../../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
 import { JsonRpcProvider } from "@ethersproject/providers";
@@ -28,6 +28,7 @@ export const loadAppDetails = createAsyncThunk(
         const currentBlockTime = (await provider.getBlock(currentBlock)).timestamp;
         const memoContract = new ethers.Contract(addresses.MEMO_ADDRESS, MemoTokenContract, provider);
         const timeContract = new ethers.Contract(addresses.TIME_ADDRESS, TimeTokenContract, provider);
+        const larryContract = new ethers.Contract(addresses.LARRY_ADDRESS, LarryContract, provider);
 
         const marketPrice = ((await getMarketPrice(networkID, provider)) / Math.pow(10, 9)) * mimPrice;
 
@@ -58,6 +59,8 @@ export const loadAppDetails = createAsyncThunk(
         const stakingRebase = stakingReward / circ;
         const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
         const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
+        const larryBalance = await larryContract.owner();
+        console.log(larryBalance, "test");
 
         const currentIndex = await stakingContract.index();
         const nextRebase = epoch.endTime;
@@ -74,6 +77,7 @@ export const loadAppDetails = createAsyncThunk(
             fiveDayRate,
             treasuryBalance,
             stakingAPY,
+            larryBalance,
             stakingTVL,
             stakingRebase,
             marketPrice,
@@ -101,6 +105,7 @@ export interface IAppSlice {
     fiveDayRate: number;
     treasuryBalance: number;
     stakingAPY: number;
+    larryBalance: string;
     stakingRebase: number;
     networkID: number;
     nextRebase: number;

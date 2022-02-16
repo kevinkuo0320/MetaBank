@@ -12,7 +12,7 @@ import ViewBase from "../components/ViewBase";
 import { Stake, ChooseBond, Bond, Dashboard, NotFound } from "../views";
 import "./style.scss";
 
-function App() {
+function StakeApp() {
     const dispatch = useDispatch();
 
     const { connect, provider, hasCachedProvider, chainID, connected } = useWeb3Context();
@@ -94,9 +94,9 @@ function App() {
     return (
         <ViewBase>
             <Switch>
-                <Route exact path="/dashboard">
+                {/* <Route exact path="/dashboard">
                     <Dashboard />
-                </Route>
+                </Route> */}
 
                 <Route exact path="/">
                     <Redirect to="/stake" />
@@ -106,7 +106,7 @@ function App() {
                     <Stake />
                 </Route>
 
-                <Route path="/mints">
+                {/* <Route path="/mints">
                     {bonds.map(bond => {
                         return (
                             <Route exact key={bond.name} path={`/mints/${bond.name}`}>
@@ -115,7 +115,7 @@ function App() {
                         );
                     })}
                     <ChooseBond />
-                </Route>
+                </Route> */}
 
                 <Route component={NotFound} />
             </Switch>
@@ -123,4 +123,4 @@ function App() {
     );
 }
 
-export default App;
+export default StakeApp;

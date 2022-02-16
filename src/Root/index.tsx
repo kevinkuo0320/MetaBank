@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import App from "./App";
+import Stake from "./StakeApp";
 import Landing from "./Landing";
+import Home from "./Home";
 import { HashRouter } from "react-router-dom";
 import { loadTokenPrices } from "../helpers";
 import Loading from "../components/Loader";
+import { Route, withRouter, BrowserRouter } from "react-router-dom";
 
 function Root() {
-    const isApp = (): boolean => {
-        return window.location.host.includes("app");
+    const isStake = (): boolean => {
+        console.log(window.location.host);
+        return window.location.pathname.includes("stake");
     };
 
     const [loading, setLoading] = useState(true);
@@ -18,13 +21,12 @@ function Root() {
 
     if (loading) return <Loading />;
 
-    const app = () => (
-        <HashRouter>
-            <App />
-        </HashRouter>
+    return (
+        <BrowserRouter>
+            <Route exact path="/" component={Home} />
+            <Route path="/stake" component={Stake} />
+        </BrowserRouter>
     );
-
-    return isApp() ? app() : <Landing />;
 }
 
 export default Root;

@@ -2,7 +2,7 @@ import React, { useState, ReactElement, useContext, useMemo, useCallback } from 
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import { getMainnetURI } from "./helpers";
+import { getMainnetURI, getFujiURI } from "./helpers";
 import { DEFAULD_NETWORK } from "../../constants";
 import { Networks } from "../../constants";
 import { messages } from "../../constants/messages";

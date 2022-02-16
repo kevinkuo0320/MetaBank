@@ -1,5 +1,5 @@
-# [Wonderland Frontend](https://app.wonderland.money/)
-This is the front-end repo for Wonderland. 
+# MetaBank Frontend
+This is the front-end repo for MetaBank. 
 
 ##  🔧 Setting up Local Development
 
