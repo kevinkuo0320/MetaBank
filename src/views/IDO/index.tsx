@@ -4,7 +4,7 @@ import { Grid, InputAdornment, OutlinedInput, Zoom } from "@material-ui/core";
 import RebaseTimer from "../../components/RebaseTimer";
 import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../store/slices/stake-thunk";
-import "./stake.scss";
+import "./ido.scss";
 import { useWeb3Context } from "../../hooks";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../store/slices/pending-txns-slice";
 import { Skeleton } from "@material-ui/lab";
@@ -13,11 +13,10 @@ import { messages } from "../../constants/messages";
 import classnames from "classnames";
 import { warning } from "../../store/slices/messages-slice";
 
-function Stake() {
+function IDO() {
     const dispatch = useDispatch();
     const { provider, address, connect, chainID, checkWrongNetwork } = useWeb3Context();
 
-    const [view, setView] = useState(0); // 0 is for stake, 1 is for unstake
     const [quantity, setQuantity] = useState<string>("");
 
     const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
@@ -56,11 +55,7 @@ function Stake() {
     console.log("test100", getLarryBalance);
 
     const setMax = () => {
-        if (view === 0) {
-            setQuantity(timeBalance);
-        } else {
-            setQuantity(memoBalance);
-        }
+        setQuantity(timeBalance);
     };
 
     const onSeekApproval = async (token: string) => {
@@ -82,16 +77,10 @@ function Stake() {
     const hasAllowance = useCallback(
         token => {
             if (token === "time") return stakeAllowance > 0;
-            if (token === "memo") return unstakeAllowance > 0;
             return 0;
         },
         [stakeAllowance],
     );
-
-    const changeView = (newView: number) => () => {
-        setView(newView);
-        setQuantity("");
-    };
 
     const trimmedMemoBalance = trim(Number(memoBalance), 6);
     const trimmedStakingAPY = trim(stakingAPY * 100, 1);
@@ -103,12 +92,9 @@ function Stake() {
             <Zoom in={true}>
                 <div className="stake-card">
                     <Grid className="stake-card-grid" container direction="column" spacing={2}>
-                        <Grid item>
-                            <div className="stake-card-header">
-                                <p className="stake-card-header-title">MB Staking 🧠</p>
-                                {/* <RebaseTimer /> */}
-                            </div>
-                        </Grid>
+                        <div className="stake-card-header">
+                            <p className="stake-card-header-title">IDO Early Bird Pool 🧠</p>
+                        </div>
 
                         <div className="stake-card-area">
                             {!address && (
@@ -116,21 +102,12 @@ function Stake() {
                                     <div className="stake-card-wallet-connect-btn" onClick={connect}>
                                         <p>Connect Wallet</p>
                                     </div>
-                                    <p className="stake-card-wallet-desc-text">Connect your wallet to stake MB tokens!</p>
+                                    <p className="stake-card-wallet-desc-text">Connect your wallet to deposit for the IDO Pool</p>
                                 </div>
                             )}
                             {address && (
                                 <div>
                                     <div className="stake-card-action-area">
-                                        <div className="stake-card-action-stage-btns-wrap">
-                                            <div onClick={changeView(0)} className={classnames("stake-card-action-stage-btn", { active: !view })}>
-                                                <p>Stake</p>
-                                            </div>
-                                            <div onClick={changeView(1)} className={classnames("stake-card-action-stage-btn", { active: view })}>
-                                                <p>Unstake</p>
-                                            </div>
-                                        </div>
-
                                         <div className="stake-card-action-row">
                                             <OutlinedInput
                                                 type="number"
@@ -148,74 +125,46 @@ function Stake() {
                                                 }
                                             />
 
-                                            {view === 0 && (
-                                                <div className="stake-card-tab-panel">
-                                                    {address && hasAllowance("time") ? (
-                                                        <div
-                                                            className="stake-card-tab-panel-btn"
-                                                            onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "staking")) return;
-                                                                onChangeStake("stake");
-                                                            }}
-                                                        >
-                                                            <p>{txnButtonText(pendingTransactions, "staking", "Stake TIME")}</p>
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            className="stake-card-tab-panel-btn"
-                                                            onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "approve_staking")) return;
-                                                                onSeekApproval("time");
-                                                            }}
-                                                        >
-                                                            <p>{txnButtonText(pendingTransactions, "approve_staking", "Approve")}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            {view === 1 && (
-                                                <div className="stake-card-tab-panel">
-                                                    {address && hasAllowance("memo") ? (
-                                                        <div
-                                                            className="stake-card-tab-panel-btn"
-                                                            onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "unstaking")) return;
-                                                                onChangeStake("unstake");
-                                                            }}
-                                                        >
-                                                            <p>{txnButtonText(pendingTransactions, "unstaking", "Unstake TIME")}</p>
-                                                        </div>
-                                                    ) : (
-                                                        <div
-                                                            className="stake-card-tab-panel-btn"
-                                                            onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "approve_unstaking")) return;
-                                                                onSeekApproval("memo");
-                                                            }}
-                                                        >
-                                                            <p>{txnButtonText(pendingTransactions, "approve_unstaking", "Approve")}</p>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
+                                            <div className="stake-card-tab-panel">
+                                                {address && hasAllowance("time") ? (
+                                                    <div
+                                                        className="stake-card-tab-panel-btn"
+                                                        onClick={() => {
+                                                            if (isPendingTxn(pendingTransactions, "staking")) return;
+                                                            onChangeStake("stake");
+                                                        }}
+                                                    >
+                                                        <p>{txnButtonText(pendingTransactions, "staking", "Stake TIME")}</p>
+                                                    </div>
+                                                ) : (
+                                                    <div
+                                                        className="stake-card-tab-panel-btn"
+                                                        onClick={() => {
+                                                            if (isPendingTxn(pendingTransactions, "approve_staking")) return;
+                                                            onSeekApproval("time");
+                                                        }}
+                                                    >
+                                                        <p>{txnButtonText(pendingTransactions, "approve_staking", "Approve")}</p>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="stake-user-data">
+                                    {/* <div className="stake-user-data">
                                         <div className="data-row">
                                             <p className="data-row-name">Your Balance</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MB</>}</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MTT</>}</p>
                                         </div>
 
                                         <div className="data-row">
                                             <p className="data-row-name">Your Staked Balance</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trimmedMemoBalance} MB</>}</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trimmedMemoBalance} MTT</>}</p>
                                         </div>
 
                                         <div className="data-row">
                                             <p className="data-row-name">Next Reward Amount</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MTT</>}</p>
                                         </div>
 
                                         <div className="data-row">
@@ -227,7 +176,7 @@ function Stake() {
                                             <p className="data-row-name">ROI (5-Day Rate)</p>
                                             <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}</p>
                                         </div>
-                                    </div>
+                                    </div> */}
                                 </div>
                             )}
                         </div>
@@ -238,4 +187,4 @@ function Stake() {
     );
 }
 
-export default Stake;
+export default IDO;

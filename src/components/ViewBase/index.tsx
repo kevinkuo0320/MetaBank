@@ -65,12 +65,12 @@ function ViewBase({ children }: IViewBaseProps) {
             <div className={`${classes.content} ${isSmallerScreen && classes.contentShift}`}>
                 {!isSmallerScreen && (
                     <div className="cubes-top">
-                        <p>{cubesImage}</p>
+                        <img src="./m3coin.png" style={{ height: "20rem" }} />
                     </div>
                 )}
                 {!isSmallScreen && (
                     <div className="cubes-bottom">
-                        <p>{cubesImage}</p>
+                        <img src="./m3coin.png" style={{ height: "30rem", transform: "rotate(90deg)" }} />
                     </div>
                 )}
                 {children}

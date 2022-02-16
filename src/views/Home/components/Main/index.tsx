@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "@material-ui/core";
 import "./main.scss";
-import Stake from "../../../Stake/index";
+import IDO from "../../../IDO/index";
 
 function Main() {
     return (
@@ -12,24 +12,11 @@ function Main() {
                     <p>MetaBank</p>
                 </div>
                 <div className="landing-main-help-text-wrap">
-                    <p>Financial tools to grow your wealth - stake</p>
-                    <p>and earncompounding interest</p>
+                    <p>The world’s first gamified high yield protocol</p>
+                    <p>rewarding it’s holders with #Bitcoin and #Ethereum</p>
                 </div>
-                {/* <div className="landing-main-btns-wrap">
-                    <Link href="https://app.wonderland.money" target="_blank" rel="noreferrer">
-                        <div className="landing-main-btn">
-                            <p>Enter App</p>
-                        </div>
-                    </Link>
-                    <Link href="https://wonderland.gitbook.io/wonderland/" target="_blank" rel="noreferrer">
-                        <div className="landing-main-btn">
-                            <p>Documentation</p>
-                        </div>
-                    </Link>
-                </div> */}
+                <IDO />
             </div>
-
-            <Stake />
         </div>
     );
 }

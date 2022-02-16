@@ -8,7 +8,7 @@ import DashboardIcon from "../../../assets/icons/dashboard.svg";
 import { trim, shorten } from "../../../helpers";
 import { useAddress } from "../../../hooks";
 import useBonds from "../../../hooks/bonds";
-import { Link } from "@material-ui/core";
+import { Link, withMobileDialog } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 import "./drawer-content.scss";
 import DocsIcon from "../../../assets/icons/stake.svg";
@@ -37,7 +37,7 @@ function NavContent() {
         <div className="dapp-sidebar">
             <div className="branding-header">
                 <Link href="https://metabank.money" target="_blank">
-                    <img alt="metabank-icon" src="./android-chrome-192x192.png" />
+                    <img alt="metabank-icon" src="./metabank_logo_colored_transparent.png" style={{ height: "7rem", width: "9rem" }} />
                 </Link>
 
                 {address && (
@@ -53,7 +53,7 @@ function NavContent() {
                 <div className="dapp-nav">
                     <Link
                         component={NavLink}
-                        to="/dashboard"
+                        to="/"
                         isActive={(match: any, location: any) => {
                             return checkPage(location, "dashboard");
                         }}
@@ -61,7 +61,7 @@ function NavContent() {
                     >
                         <div className="dapp-menu-item">
                             <img alt="" src={DashboardIcon} />
-                            <p>Dashboard</p>
+                            <p>Pool</p>
                         </div>
                     </Link>
 
@@ -79,7 +79,7 @@ function NavContent() {
                         </div>
                     </Link>
 
-                    <Link
+                    {/* <Link
                         component={NavLink}
                         id="bond-nav"
                         to="/mints"
@@ -108,7 +108,7 @@ function NavContent() {
                                 )}
                             </Link>
                         ))}
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className="dapp-menu-doc-link">
