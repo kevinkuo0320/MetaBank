@@ -12,6 +12,7 @@ import { IReduxState } from "../../store/slices/state.interface";
 import { messages } from "../../constants/messages";
 import classnames from "classnames";
 import { warning } from "../../store/slices/messages-slice";
+import Background from "../Landing/components/Background";
 
 function Stake() {
     const dispatch = useDispatch();
@@ -105,7 +106,7 @@ function Stake() {
                     <Grid className="stake-card-grid" container direction="column" spacing={2}>
                         <Grid item>
                             <div className="stake-card-header">
-                                <p className="stake-card-header-title">MB Staking 🧠</p>
+                                <p className="stake-card-header-title">LP token Staking 🧠</p>
                                 {/* <RebaseTimer /> */}
                             </div>
                         </Grid>
@@ -116,7 +117,7 @@ function Stake() {
                                     <div className="stake-card-wallet-connect-btn" onClick={connect}>
                                         <p>Connect Wallet</p>
                                     </div>
-                                    <p className="stake-card-wallet-desc-text">Connect your wallet to stake MB tokens!</p>
+                                    <p className="stake-card-wallet-desc-text">Connect your wallet to stake LP tokens!</p>
                                 </div>
                             )}
                             {address && (
@@ -158,7 +159,7 @@ function Stake() {
                                                                 onChangeStake("stake");
                                                             }}
                                                         >
-                                                            <p>{txnButtonText(pendingTransactions, "staking", "Stake TIME")}</p>
+                                                            <p>{txnButtonText(pendingTransactions, "staking", "Stake LP")}</p>
                                                         </div>
                                                     ) : (
                                                         <div
@@ -203,7 +204,7 @@ function Stake() {
                                     </div>
 
                                     <div className="stake-user-data">
-                                        <div className="data-row">
+                                        {/*<div className="data-row">
                                             <p className="data-row-name">Your Balance</p>
                                             <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MB</>}</p>
                                         </div>
@@ -226,6 +227,66 @@ function Stake() {
                                         <div className="data-row">
                                             <p className="data-row-name">ROI (5-Day Rate)</p>
                                             <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}</p>
+                                        </div>*/}
+
+                                        <div
+                                            className="data-row"
+                                            style={{
+                                                borderStyle: "solid",
+
+                                                borderWidth: "1px",
+                                                backgroundColor: "grey",
+                                            }}
+                                        >
+                                            <p
+                                                className="data-row-name"
+                                                style={{
+                                                    fontSize: "20px",
+                                                }}
+                                            >
+                                                Your LP staked
+                                            </p>
+                                            <p
+                                                className="data-row-value"
+                                                style={{
+                                                    fontSize: "15px",
+                                                    marginTop: "4px",
+                                                }}
+                                            >
+                                                {isAppLoading ? <Skeleton width="200px" /> : <>{trimmedMemoBalance} MB</>}
+                                            </p>
+                                        </div>
+
+                                        <div className="data-row" style={{ fontSize: "20px" }}>
+                                            <p
+                                                className="data-row-name"
+                                                style={{
+                                                    fontSize: "20px",
+                                                }}
+                                            >
+                                                Your unclaimed MB Tokens Rewards
+                                            </p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}</p>
+                                        </div>
+
+                                        <div className="data-row">
+                                            <p className="data-row-name">Your LP Balance in wallet </p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MB</>}</p>
+                                        </div>
+
+                                        <div className="data-row">
+                                            <p className="data-row-name">MB Price</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
+                                        </div>
+
+                                        <div className="data-row">
+                                            <p className="data-row-name">APR</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
+                                        </div>
+
+                                        <div className="data-row">
+                                            <p className="data-row-name">Daily Rewards</p>
+                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
                                         </div>
                                     </div>
                                 </div>

@@ -96,6 +96,14 @@ function IDO() {
                             <p className="stake-card-header-title">IDO Early Bird Pool 🧠</p>
                         </div>
 
+                        {/*<div className="stake-card-header">
+                            <p className="stake-card-header-title">Your address is </p>
+                        </div>
+
+                        <div className="stake-card-header">
+                            <p className="stake-card-header-title">Are you whitelisted? No </p>
+                        </div>*/}
+
                         <div className="stake-card-area">
                             {!address && (
                                 <div className="stake-card-wallet-notification">
@@ -134,7 +142,7 @@ function IDO() {
                                                             onChangeStake("stake");
                                                         }}
                                                     >
-                                                        <p>{txnButtonText(pendingTransactions, "staking", "Stake TIME")}</p>
+                                                        <p>{txnButtonText(pendingTransactions, "staking", "Buy Meta Coin")}</p>
                                                     </div>
                                                 ) : (
                                                     <div

@@ -1,0 +1,10 @@
+
+body {
+    background-color: greenyellow;
+}
+
+.Timer {
+    text-align: center;
+    font-size: 75px;
+    color: white; 
+}

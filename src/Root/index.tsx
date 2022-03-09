@@ -6,6 +6,7 @@ import { HashRouter } from "react-router-dom";
 import { loadTokenPrices } from "../helpers";
 import Loading from "../components/Loader";
 import { Route, withRouter, BrowserRouter } from "react-router-dom";
+import Media from "./Media";
 
 function Root() {
     const isStake = (): boolean => {
@@ -25,6 +26,7 @@ function Root() {
         <BrowserRouter>
             <Route exact path="/" component={Home} />
             <Route path="/stake" component={Stake} />
+            <Route path="/media" component={Media} />
         </BrowserRouter>
     );
 }

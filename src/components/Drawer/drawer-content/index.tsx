@@ -61,11 +61,11 @@ function NavContent() {
                     >
                         <div className="dapp-menu-item">
                             <img alt="" src={DashboardIcon} />
-                            <p>Pool</p>
+                            <p>Home Page</p>
                         </div>
                     </Link>
 
-                    <Link
+                    {/*<Link
                         component={NavLink}
                         to="/stake"
                         isActive={(match: any, location: any) => {
@@ -76,6 +76,20 @@ function NavContent() {
                         <div className="dapp-menu-item">
                             <img alt="" src={StakeIcon} />
                             <p>Stake</p>
+                        </div>
+                    </Link>*/}
+
+                    <Link
+                        component={NavLink}
+                        to="/media"
+                        isActive={(match: any, location: any) => {
+                            return checkPage(location, "stake");
+                        }}
+                        className={classnames("button-dapp-menu", { active: isActive })}
+                    >
+                        <div className="dapp-menu-item">
+                            <img alt="" src={StakeIcon} />
+                            <p>Media</p>
                         </div>
                     </Link>
 
@@ -112,7 +126,7 @@ function NavContent() {
                 </div>
             </div>
             <div className="dapp-menu-doc-link">
-                <Link href="https://wonderland.gitbook.io/wonderland/" target="_blank">
+                <Link href="https://metabank-finance.gitbook.io/metabank-finance-litepaper/" target="_blank">
                     <img alt="" src={DocsIcon} />
                     <p>Docs</p>
                 </Link>
