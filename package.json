@@ -45,6 +45,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
     "sass": "^1.35.1",
+    "serve": "^13.0.2",
     "typescript": "^4.3.2",
     "web3modal": "^1.9.4"
   },
@@ -71,11 +72,11 @@
     "extends": "react-app"
   },
   "scripts": {
-    "build": "GENERATE_SOURCEMAP=false react-scripts build",
+    "dev": "react-scripts start",
+    "start": "serve -s build",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "start": "node index.tsx",
-    "test": "react-scripts test",
-    "lint": "npx eslint src/ --ext .ts,.js,.tsx,.jsx",
-    "lint-fix": "npx eslint src/ --ext .ts,.js,.tsx,.jsx --fix"
+    "heroku-postbuild": "npm run build"
   }
 }
