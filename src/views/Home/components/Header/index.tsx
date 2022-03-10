@@ -87,7 +87,7 @@ function Header() {
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={200}>
                                 <div className="tooltip">
-                                    <Link className="tooltip-item" href="https://dsc.gg/metabankfinance" target="_blank">
+                                    <Link className="tooltip-item" href="https://metabank-finance.gitbook.io/metabank-finance-litepaper/" target="_blank">
                                         <SvgIcon color="primary" component={Medium} />
                                         <p>Document</p>
                                     </Link>
