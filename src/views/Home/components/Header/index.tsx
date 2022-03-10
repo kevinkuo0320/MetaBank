@@ -97,7 +97,7 @@ function Header() {
                                         <p>Twitter</p>
                                     </Link>
 
-                                    <Link className="tooltip-item" href="https://discord.gg/thDHseaHUt" target="_blank">
+                                    <Link className="tooltip-item" href="https://dsc.gg/metabankfinance" target="_blank">
                                         <SvgIcon color="primary" component={Discord} />
                                         <p>Discord</p>
                                     </Link>
