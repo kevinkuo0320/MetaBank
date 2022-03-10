@@ -11,14 +11,14 @@ function Main() {
             <div className="landing-main">
                 <Fade bottom>
                     <div className="landing-main-title-wrap">
-                        <p>The Decentralized</p>
-                        <p>MetaBank</p>
+                        <p>Metabank Games </p>
+                        <p>Season 1</p>
                     </div>
                 </Fade>
                 <Fade bottom>
                     <div className="landing-main-help-text-wrap">
                         <p>The world’s first gamified high yield protocol</p>
-                        <p>rewarding it’s holders with #Bitcoin and #Ethereum and #AVAX</p>
+                        <p>rewarding holders and winners with Bitcoin, Ethereum and AVAX</p>
                     </div>
                 </Fade>
                 <div className="landing-main-help-text-wrap">

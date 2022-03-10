@@ -36,6 +36,7 @@ function Header() {
                 >
                     Documents
                 </button>
+
                 <button
                     className="fontOthers"
                     onClick={e => {
@@ -45,6 +46,7 @@ function Header() {
                 >
                     Twitter
                 </button>
+
                 <button
                     className="fontOthers"
                     onClick={e => {
@@ -54,9 +56,25 @@ function Header() {
                 >
                     Discord
                 </button>
-                <button className="fontOthers" onClick={() => history.push("/media")}>
+
+                <button
+                    className="fontOthers"
+                    onClick={e => {
+                        e.preventDefault();
+                        window.location.href = "https://www.youtube.com/watch?v=fT1hxDdLrQE";
+                    }}
+                >
                     Media
                 </button>
+
+                {/* <button className="fontOthers"
+                    onClick={e => {
+                        e.preventDefault();
+                        window.location.href = "https://youtu.be/fT1hxDdLrQE";
+                    }}
+                   >
+                    Media
+                </button>*/}
             </div>
             {/*<div className="landing-header-nav-wrap">
                 <Box component="div" onMouseEnter={e => handleClick(e)} onMouseLeave={e => handleClick(e)}>
