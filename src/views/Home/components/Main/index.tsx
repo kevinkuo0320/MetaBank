@@ -4,6 +4,7 @@ import "./main.scss";
 import IDO from "../../../IDO/index";
 import Timer from "../../../../components/Timer/Timer";
 import { Fade } from "react-reveal";
+import Media from "../../../Media/index";
 
 function Main() {
     return (
@@ -31,6 +32,8 @@ function Main() {
                 <Timer />
 
                 <IDO />
+
+                <Media />
             </div>
         </div>
     );
