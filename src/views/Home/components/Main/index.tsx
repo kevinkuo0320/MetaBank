@@ -33,14 +33,7 @@ function Main() {
 
                 <IDO />
 
-                {/* <Media />*/}
-
-                {/*<div>
-                    <h1>Youtube Embed</h1>
-                    */}
-                {/*<YoutubeEmbed embedId="rokGy0huYEA" />*/}
-                {/*
-                </div>*/}
+                <Media />
             </div>
         </div>
     );

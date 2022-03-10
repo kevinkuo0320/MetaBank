@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./header.scss";
-import { ReactComponent as WonderlandIcon } from "../../../../assets/icons/wonderland-icon.svg";
 import { SvgIcon, Link, Box, Popper, Fade } from "@material-ui/core";
 import { ReactComponent as GitHub } from "../../../../assets/icons/github.svg";
 import { ReactComponent as Twitter } from "../../../../assets/icons/twitter.svg";
 import { ReactComponent as Telegram } from "../../../../assets/icons/telegram.svg";
 import { ReactComponent as Discord } from "../../../../assets/icons/discord.svg";
+import { ReactComponent as Medium } from "../../../../assets/icons/medium.svg";
 import { useHistory } from "react-router-dom";
 
 function Header() {
@@ -27,7 +27,7 @@ function Header() {
                 {/*<button className="fontOthers" onClick={() => history.push("/stake")}>
                     Stake
                 </button>*/}
-                <button
+                {/* <button
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
@@ -55,7 +55,7 @@ function Header() {
                     }}
                 >
                     Discord
-                </button>
+                </button>*/}
 
                 {/* <button
                     className="fontOthers"
@@ -76,29 +76,23 @@ function Header() {
                     Media
                 </button>*/}
             </div>
-            {/*<div className="landing-header-nav-wrap">
+            <div className="landing-header-nav-wrap">
                 <Box component="div" onMouseEnter={e => handleClick(e)} onMouseLeave={e => handleClick(e)}>
-                    <p className="landing-header-nav-text">Social</p>
+                    <p className="landing-header-nav-text">More</p>
                     <Popper className="landing-header-poper" open={open} anchorEl={anchorEl} transition>
                         {({ TransitionProps }) => (
                             <Fade {...TransitionProps} timeout={200}>
                                 <div className="tooltip">
-                                    */}
-            {/* <Link className="tooltip-item" href="https://github.com/Wonderland-Money/wonderland-frontend" target="_blank">
-                                        <SvgIcon color="primary" component={GitHub} />
-                                        <p>GitHub</p>
-                                    </Link> */}
-            {/*
+                                    <Link className="tooltip-item" href="https://dsc.gg/metabankfinance" target="_blank">
+                                        <SvgIcon color="primary" component={Medium} />
+                                        <p>Document</p>
+                                    </Link>
+
                                     <Link className="tooltip-item" href="https://twitter.com/metabankfinance" target="_blank">
                                         <SvgIcon color="primary" component={Twitter} />
                                         <p>Twitter</p>
                                     </Link>
-                                    */}
-            {/* <Link className="tooltip-item" href="https://t.me/joinchat/6UybL5rJMEhjN2Y5" target="_blank">
-                                        <SvgIcon viewBox="0 0 32 32" color="primary" component={Telegram} />
-                                        <p>Telegram</p>
-                                    </Link> */}
-            {/*
+
                                     <Link className="tooltip-item" href="https://discord.gg/thDHseaHUt" target="_blank">
                                         <SvgIcon color="primary" component={Discord} />
                                         <p>Discord</p>
@@ -108,7 +102,7 @@ function Header() {
                         )}
                     </Popper>
                 </Box>
-            </div>*/}
+            </div>
         </div>
     );
 }
