@@ -41,7 +41,7 @@ function Header() {
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
-                        window.open("https://metabank-finance.gitbook.io/metabank-finance-litepaper/");
+                        window.open("https://twitter.com/metabankfinance");
                     }}
                 >
                     Twitter
@@ -57,7 +57,7 @@ function Header() {
                     Discord
                 </button>
 
-                <button
+                {/* <button
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
@@ -65,7 +65,7 @@ function Header() {
                     }}
                 >
                     Media
-                </button>
+                </button>*/}
 
                 {/* <button className="fontOthers"
                     onClick={e => {
