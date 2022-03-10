@@ -31,7 +31,7 @@ function Header() {
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
-                        window.location.href = "https://metabank-finance.gitbook.io/metabank-finance-litepaper/";
+                        window.open("https://metabank-finance.gitbook.io/metabank-finance-litepaper/");
                     }}
                 >
                     Documents
@@ -41,7 +41,7 @@ function Header() {
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
-                        window.location.href = "https://metabank-finance.gitbook.io/metabank-finance-litepaper/";
+                        window.open("https://metabank-finance.gitbook.io/metabank-finance-litepaper/");
                     }}
                 >
                     Twitter
@@ -51,7 +51,7 @@ function Header() {
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
-                        window.location.href = "https://dsc.gg/metabankfinance";
+                        window.open("https://dsc.gg/metabankfinance");
                     }}
                 >
                     Discord
@@ -61,7 +61,7 @@ function Header() {
                     className="fontOthers"
                     onClick={e => {
                         e.preventDefault();
-                        window.location.href = "https://www.youtube.com/watch?v=fT1hxDdLrQE";
+                        window.open("https://www.youtube.com/watch?v=fT1hxDdLrQE");
                     }}
                 >
                     Media

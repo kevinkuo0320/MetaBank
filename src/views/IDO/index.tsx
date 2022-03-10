@@ -107,7 +107,7 @@ function IDO() {
                         <div className="stake-card-area">
                             {!address && (
                                 <div className="stake-card-wallet-notification">
-                                    <div className="stake-card-wallet-connect-btn" onClick={connect}>
+                                    <div className="stake-card-wallet-connect-btn" /* onClick={connect}*/>
                                         <p>Connect Wallet</p>
                                     </div>
                                     <p className="stake-card-wallet-desc-text">Connect your wallet to deposit for the IDO Pool</p>
