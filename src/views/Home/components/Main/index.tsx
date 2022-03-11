@@ -12,8 +12,8 @@ function Main() {
             <div className="landing-main">
                 <Fade bottom>
                     <div className="landing-main-title-wrap">
-                        <p>Metabank Games </p>
-                        <p>Season 1</p>
+                        <p className="title">Metabank Games </p>
+                        <p className="title">Season 1</p>
                     </div>
                 </Fade>
                 <Fade bottom>
