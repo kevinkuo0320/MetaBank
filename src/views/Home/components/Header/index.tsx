@@ -25,10 +25,11 @@ function Header() {
                 <img src="./metabank_logo_colored_transparent.png" style={{ height: 50, width: 69, padding: 10 }} />
                 <p className="fontMetaBank">MetaBank</p>
 
-                {/*<button className="fontOthers" onClick={() => history.push("/stake")}>
-                    Stake
-                </button>*/}
                 <div className="web-buttons">
+                    <button className="fontOthers" onClick={() => history.push("/stake")}>
+                        Enter
+                    </button>
+
                     <button
                         className="fontOthers"
                         onClick={e => {

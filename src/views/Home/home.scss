@@ -1,11 +1,26 @@
 .landing-root {
-    height: 104vh;
+    height: 170vh; 
     width: 104vw;
     overflow: scroll;
     background: #121415;
     display: flex;
     flex-direction: column;
+    //background-image: url("../../assets/icons/landing-blobs-center.png"); 
 }
+
+
+@media screen and (max-width: 860px) {
+    .landing-root {
+        height: 150vh;
+    }
+}
+
+@media screen and (max-width: 860px) {
+    .landing-root {
+        height: 130vh; 
+    }
+}
+
 
 button,
 input[type="submit"],

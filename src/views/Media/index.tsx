@@ -6,16 +6,7 @@ import { ReactVideoPlay, VideoSourceType } from "react-video-play";
 const Media = () => {
     let src = [
         {
-            name: "1080p",
-            source: [
-                {
-                    source: "eh5v.files/html5video/METABANK_1.mp4",
-                    type: VideoSourceType.video_mp4,
-                },
-            ],
-        },
-        {
-            name: "720p",
+            name: "",
             default: true,
             source: [
                 {
@@ -28,7 +19,7 @@ const Media = () => {
 
     return (
         <div className="container">
-            <ReactVideoPlay sources={src} autoplay={true} />
+            <ReactVideoPlay sources={src} enableSlider={false} autoplay={true} muted={false} />
         </div>
     );
 };

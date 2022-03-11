@@ -51,24 +51,25 @@ function TimeMenu() {
     return (
         <div className="time-menu-root" onMouseEnter={e => handleClick(e)} onMouseLeave={e => handleClick(e)}>
             <div className="time-menu-btn">
-                <p>MB</p>
+                <p>MetaBank Token</p>
             </div>
 
             <Popper className="time-menu-popper" open={open} anchorEl={anchorEl} transition>
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={200}>
                         <div className="tooltip">
-                            <Link className="tooltip-item" href={`https://www.traderjoexyz.com/#/trade?inputCurrency=&outputCurrency=${TIME_ADDRESS}`} target="_blank">
-                                <p>Buy on Trader Joe</p>
+                            <Link className="tooltip-item">
+                                {/*href={`https://www.traderjoexyz.com/#/trade?inputCurrency=&outputCurrency=${ADDRESS}`} target="_blank"*/}
+                                <p>Buy MB on Trader Joe</p>
                             </Link>
 
                             {isEthereumAPIAvailable && (
                                 <div className="add-tokens">
                                     <div className="divider" />
-                                    <p className="add-tokens-title">ADD TOKEN TO WALLET</p>
-                                    <div className="divider" />
-                                    <div className="tooltip-item" onClick={addTokenToWallet("TIME", TIME_ADDRESS)}>
-                                        <p>MB</p>
+                                    {/*<p className="add-tokens-title">ADD TOKEN TO WALLET</p>
+                                    <div className="divider" />*/}
+                                    <div className="tooltip-item" /*onClick={addTokenToWallet("TIME", TIME_ADDRESS)}*/>
+                                        <p>Add MB to Wallet</p>
                                     </div>
                                 </div>
                             )}

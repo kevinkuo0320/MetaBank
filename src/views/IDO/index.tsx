@@ -142,7 +142,7 @@ function IDO() {
                                                             onChangeStake("stake");
                                                         }}
                                                     >
-                                                        <p>{txnButtonText(pendingTransactions, "staking", "Buy Meta Coin")}</p>
+                                                        <p>{txnButtonText(pendingTransactions, "staking", "Buy MB")}</p>
                                                     </div>
                                                 ) : (
                                                     <div

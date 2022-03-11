@@ -1,9 +1,6 @@
 import { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Social from "./social";
-import StakeIcon from "../../../assets/icons/stake.svg";
-import BondIcon from "../../../assets/icons/bond.svg";
-import WonderlandIcon from "../../../assets/icons/wonderland-nav-header.svg";
+
 import DashboardIcon from "../../../assets/icons/dashboard.svg";
 import { trim, shorten } from "../../../helpers";
 import { useAddress } from "../../../hooks";
@@ -13,6 +10,9 @@ import { Skeleton } from "@material-ui/lab";
 import "./drawer-content.scss";
 import DocsIcon from "../../../assets/icons/stake.svg";
 import classnames from "classnames";
+import Twitter from "../../../assets/icons/twitter.svg";
+import Discord from "../../../assets/icons/discord.svg";
+import MB from "../../../assets/icons/metabank_logo_2.svg";
 
 function NavContent() {
     const [isActive] = useState();
@@ -36,17 +36,34 @@ function NavContent() {
     return (
         <div className="dapp-sidebar">
             <div className="branding-header">
-                <Link href="https://metabank.money" target="_blank">
-                    <img alt="metabank-icon" src="./metabank_logo_colored_transparent.png" style={{ height: "7rem", width: "9rem" }} />
-                </Link>
+                <img alt="metabank-icon" src="./metabank_logo_colored_transparent.png" style={{ height: "auto", width: "10rem" }} />
 
-                {address && (
+                {/*{address && (
                     <div className="wallet-link">
                         <Link href={`https://cchain.explorer.avax.network/address/${address}`} target="_blank">
                             <p>{shorten(address)}</p>
                         </Link>
                     </div>
-                )}
+                )}*/}
+
+                <div
+                    className="wallet-link-1"
+                    style={{
+                        fontSize: "35px",
+                    }}
+                >
+                    <p> MetaBank </p>
+                </div>
+
+                <div className="wallet-link">
+                    <p> The world's first gamified</p>
+                    <p>high yield protocol</p>
+                </div>
+
+                <div className="wallet-link">
+                    <p> Join Metabank Games </p>
+                    <p>Season 1 now!</p>
+                </div>
             </div>
 
             <div className="dapp-menu-links">
@@ -60,7 +77,7 @@ function NavContent() {
                         className={classnames("button-dapp-menu", { active: isActive })}
                     >
                         <div className="dapp-menu-item">
-                            <img alt="" src={DashboardIcon} />
+                            <img alt="MB" src={MB} className="mb-logo" />
                             <p>Home Page</p>
                         </div>
                     </Link>
@@ -79,17 +96,24 @@ function NavContent() {
                         </div>
                     </Link>*/}
 
-                    <Link
-                        component={NavLink}
-                        to="/media"
-                        isActive={(match: any, location: any) => {
-                            return checkPage(location, "stake");
-                        }}
-                        className={classnames("button-dapp-menu", { active: isActive })}
-                    >
+                    <Link href="https://metabank-finance.gitbook.io/metabank-finance-litepaper/" target="_blank" className={classnames("button-dapp-menu", { active: isActive })}>
                         <div className="dapp-menu-item">
-                            <img alt="" src={StakeIcon} />
-                            <p>Media</p>
+                            <img alt="" src={DocsIcon} />
+                            <p>Document</p>
+                        </div>
+                    </Link>
+
+                    <Link href="https://twitter.com/metabankfinance" target="_blank" className={classnames("button-dapp-menu", { active: isActive })}>
+                        <div className="dapp-menu-item">
+                            <img alt="" src={Twitter} />
+                            <p>Twitter</p>
+                        </div>
+                    </Link>
+
+                    <Link href="https://dsc.gg/metabankfinance" target="_blank" className={classnames("button-dapp-menu", { active: isActive })}>
+                        <div className="dapp-menu-item">
+                            <img alt="" src={Discord} />
+                            <p>Discord</p>
                         </div>
                     </Link>
 
@@ -125,13 +149,13 @@ function NavContent() {
                     </div> */}
                 </div>
             </div>
-            <div className="dapp-menu-doc-link">
+            {/*<div className="dapp-menu-doc-link">
                 <Link href="https://metabank-finance.gitbook.io/metabank-finance-litepaper/" target="_blank">
                     <img alt="" src={DocsIcon} />
                     <p>Docs</p>
                 </Link>
-            </div>
-            <Social />
+            </div>*/}
+            {/*<Social />*/}
         </div>
     );
 }

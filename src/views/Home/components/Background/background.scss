@@ -12,7 +12,7 @@
         user-select: none;
         z-index: 1;
 
-        p{
+       /* p{
             font-family: Courier;
             font-style: normal;
             font-weight: normal;
@@ -21,7 +21,7 @@
             color: #FFFFFF;
             white-space: pre-wrap;
             text-align: end;
-        }
+        }*/
     }
 
     .landing-background-blobs-top{
@@ -49,10 +49,4 @@
             height: 100%;
         }
     }
-}
-
-@media screen and (max-width: 770px) {
-    /*.landing-background{
-        display: none;
-    }*/
 }

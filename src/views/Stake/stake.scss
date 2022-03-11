@@ -255,7 +255,7 @@
                 }
 
                 .stake-card {
-                    width: 50%;
+                    width: 75%;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -279,7 +279,7 @@
     }
 }
 
-@media screen and (max-width: 1240px) {
+@media screen and (max-width: 1435px) {
     .stake-view {
         width: 100%;
     }

@@ -2,10 +2,10 @@ import { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, InputAdornment, OutlinedInput, Zoom } from "@material-ui/core";
 import RebaseTimer from "../../components/RebaseTimer";
-import { trim } from "../../helpers";
+import { trim, shorten } from "../../helpers";
 import { changeStake, changeApproval } from "../../store/slices/stake-thunk";
 import "./stake.scss";
-import { useWeb3Context } from "../../hooks";
+import { useWeb3Context, useAddress } from "../../hooks";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../store/slices/pending-txns-slice";
 import { Skeleton } from "@material-ui/lab";
 import { IReduxState } from "../../store/slices/state.interface";
@@ -13,10 +13,13 @@ import { messages } from "../../constants/messages";
 import classnames from "classnames";
 import { warning } from "../../store/slices/messages-slice";
 import Background from "../Landing/components/Background";
+import Header from "../Home/components/Header";
+import { Link } from "@material-ui/core";
 
 function Stake() {
     const dispatch = useDispatch();
     const { provider, address, connect, chainID, checkWrongNetwork } = useWeb3Context();
+    const walletAddress = useAddress();
 
     const [view, setView] = useState(0); // 0 is for stake, 1 is for unstake
     const [quantity, setQuantity] = useState<string>("");
@@ -106,8 +109,7 @@ function Stake() {
                     <Grid className="stake-card-grid" container direction="column" spacing={2}>
                         <Grid item>
                             <div className="stake-card-header">
-                                <p className="stake-card-header-title">LP token Staking 🧠</p>
-                                {/* <RebaseTimer /> */}
+                                <p className="stake-card-header-title">Metabank LP Staking Pool</p>
                             </div>
                         </Grid>
 
@@ -185,7 +187,7 @@ function Stake() {
                                                                 onChangeStake("unstake");
                                                             }}
                                                         >
-                                                            <p>{txnButtonText(pendingTransactions, "unstaking", "Unstake TIME")}</p>
+                                                            <p>{txnButtonText(pendingTransactions, "unstaking", "Unstake LP")}</p>
                                                         </div>
                                                     ) : (
                                                         <div
@@ -232,10 +234,13 @@ function Stake() {
                                         <div
                                             className="data-row"
                                             style={{
-                                                borderStyle: "solid",
-
-                                                borderWidth: "1px",
-                                                backgroundColor: "grey",
+                                                background: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                borderRadius: "10px",
+                                                padding: "14px 0px",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                minHeight: "80px",
                                             }}
                                         >
                                             <p
@@ -244,49 +249,111 @@ function Stake() {
                                                     fontSize: "20px",
                                                 }}
                                             >
-                                                Your LP staked
-                                            </p>
-                                            <p
-                                                className="data-row-value"
-                                                style={{
-                                                    fontSize: "15px",
-                                                    marginTop: "4px",
-                                                }}
-                                            >
-                                                {isAppLoading ? <Skeleton width="200px" /> : <>{trimmedMemoBalance} MB</>}
+                                                Wallet addrress : {address}
                                             </p>
                                         </div>
 
-                                        <div className="data-row" style={{ fontSize: "20px" }}>
+                                        <div
+                                            className="data-row"
+                                            style={{
+                                                background: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                borderRadius: "10px",
+                                                padding: "14px 0px",
+                                                alignItems: "center",
+                                                minHeight: "80px",
+                                                justifyContent: "center",
+                                            }}
+                                        >
                                             <p
                                                 className="data-row-name"
                                                 style={{
                                                     fontSize: "20px",
                                                 }}
                                             >
-                                                Your unclaimed MB Tokens Rewards
+                                                Your LP staked : {isAppLoading ? <Skeleton width="200px" /> : <>0 MB</>}
+                                                {/* {trimmedMemoBalance}*/}
                                             </p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}</p>
                                         </div>
 
-                                        <div className="data-row">
-                                            <p className="data-row-name">Your LP Balance in wallet </p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MB</>}</p>
+                                        <div
+                                            className="data-row"
+                                            style={{
+                                                background: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                borderRadius: "10px",
+                                                padding: "14px 0px",
+                                                alignItems: "center",
+                                                minHeight: "80px",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <p
+                                                className="data-row-name"
+                                                style={{
+                                                    fontSize: "20px",
+                                                }}
+                                            >
+                                                Your unclaimed MB Tokens Rewards : {isAppLoading ? <Skeleton width="80px" /> : <>0 MB</>}
+                                                {/*{stakingRebasePercentage}*/}
+                                            </p>
                                         </div>
 
-                                        <div className="data-row">
-                                            <p className="data-row-name">MB Price</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
-                                        </div>
+                                        <div
+                                            className="data-row-sub"
+                                            style={{
+                                                background: "rgba(255, 255, 255, 0.2)",
+                                                boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                borderRadius: "10px",
+                                                padding: "14px 0px",
+                                                alignItems: "center",
+                                                minHeight: "80px",
+                                                justifyContent: "center",
+                                            }}
+                                        >
+                                            <div
+                                                className="data-row"
+                                                style={{
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <p
+                                                    className="data-row-name"
+                                                    style={{
+                                                        justifyContent: "center",
+                                                    }}
+                                                >
+                                                    Your LP Balance in wallet : {isAppLoading ? <Skeleton width="80px" /> : <>0 LP</>} {/*{trim(Number(timeBalance), 4)}*/}
+                                                </p>
+                                            </div>
 
-                                        <div className="data-row">
-                                            <p className="data-row-name">APR</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
-                                        </div>
+                                            <div
+                                                className="data-row"
+                                                style={{
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <p className="data-row-name">MB Price : {isAppLoading ? <Skeleton width="80px" /> : <>0 USD</>}</p>
+                                                {/*{nextRewardValue} replace USD there*/}
+                                            </div>
 
-                                        <div className="data-row">
-                                            <p className="data-row-name">Daily Rewards</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MBs</>}</p>
+                                            <div
+                                                className="data-row"
+                                                style={{
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <p className="data-row-name">Current APR : {isAppLoading ? <Skeleton width="80px" /> : <>0 MB</>}</p>
+                                            </div>
+
+                                            <div
+                                                className="data-row"
+                                                style={{
+                                                    justifyContent: "center",
+                                                }}
+                                            >
+                                                <p className="data-row-name">Daily Rewards : {isAppLoading ? <Skeleton width="80px" /> : <> 0 MB</>}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
