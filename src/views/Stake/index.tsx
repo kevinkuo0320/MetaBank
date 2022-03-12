@@ -111,9 +111,20 @@ function Stake() {
                             <div className="stake-card-header">
                                 <p className="stake-card-header-title">Metabank LP Staking Pool</p>
                             </div>
+
+                            <div
+                                className="data-row"
+                                style={{
+                                    justifyContent: "center",
+                                }}
+                            >
+                                <p className="data-row-name" style={{ textDecoration: "underline" }}>
+                                    Current APR : {isAppLoading ? <Skeleton width="80px" /> : <> 100000 % </>}
+                                </p>
+                            </div>
                         </Grid>
 
-                        <div className="stake-card-area">
+                        <div className="stake-card-area" style={{ marginTop: "-20px" }}>
                             {!address && (
                                 <div className="stake-card-wallet-notification">
                                     <div className="stake-card-wallet-connect-btn" onClick={connect}>
@@ -249,7 +260,7 @@ function Stake() {
                                                     fontSize: "20px",
                                                 }}
                                             >
-                                                Wallet addrress : {address}
+                                                Wallet address : {address}
                                             </p>
                                         </div>
 
@@ -271,14 +282,14 @@ function Stake() {
                                                     fontSize: "20px",
                                                 }}
                                             >
-                                                Your LP staked : {isAppLoading ? <Skeleton width="200px" /> : <>0 MB</>}
+                                                Your LP staked : {isAppLoading ? <Skeleton width="200px" /> : <>0 LP</>}
                                                 {/* {trimmedMemoBalance}*/}
                                             </p>
                                         </div>
 
                                         <div
                                             className="data-row"
-                                            style={{
+                                            /*style={{
                                                 background: "rgba(255, 255, 255, 0.2)",
                                                 boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
                                                 borderRadius: "10px",
@@ -286,17 +297,44 @@ function Stake() {
                                                 alignItems: "center",
                                                 minHeight: "80px",
                                                 justifyContent: "center",
-                                            }}
+                                            }}*/
                                         >
-                                            <p
-                                                className="data-row-name"
+                                            <div
+                                                className="data-row-rewards"
                                                 style={{
                                                     fontSize: "20px",
+                                                    background: "rgba(255, 255, 255, 0.2)",
+                                                    boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                    borderRadius: "10px",
+                                                    padding: "30px 0px",
+                                                    alignItems: "center",
+                                                    minHeight: "80px",
+                                                    justifyContent: "center",
+                                                    width: "70%",
                                                 }}
                                             >
-                                                Your unclaimed MB Tokens Rewards : {isAppLoading ? <Skeleton width="80px" /> : <>0 MB</>}
-                                                {/*{stakingRebasePercentage}*/}
-                                            </p>
+                                                <p className="data-row-name" style={{ marginLeft: "50px" }}>
+                                                    Unclaimed MB Rewards : {isAppLoading ? <Skeleton width="80px" /> : <>0 MB</>}
+                                                    {/*{stakingRebasePercentage}*/}
+                                                </p>
+                                            </div>
+                                            <button
+                                                style={{
+                                                    fontSize: "20px",
+                                                    background: "rgba(255, 255, 255, 0.2)",
+                                                    boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
+                                                    borderRadius: "10px",
+                                                    padding: "30px 0px",
+                                                    alignItems: "center",
+                                                    minHeight: "80px",
+                                                    justifyContent: "center",
+                                                    width: "27%",
+                                                }}
+                                            >
+                                                <p className="data-row-name" style={{ fontWeight: "bold" }}>
+                                                    Claim
+                                                </p>
+                                            </button>
                                         </div>
 
                                         <div
@@ -335,15 +373,6 @@ function Stake() {
                                             >
                                                 <p className="data-row-name">MB Price : {isAppLoading ? <Skeleton width="80px" /> : <>0 USD</>}</p>
                                                 {/*{nextRewardValue} replace USD there*/}
-                                            </div>
-
-                                            <div
-                                                className="data-row"
-                                                style={{
-                                                    justifyContent: "center",
-                                                }}
-                                            >
-                                                <p className="data-row-name">Current APR : {isAppLoading ? <Skeleton width="80px" /> : <>0 MB</>}</p>
                                             </div>
 
                                             <div

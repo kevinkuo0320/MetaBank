@@ -13,6 +13,7 @@ import classnames from "classnames";
 import Twitter from "../../../assets/icons/twitter.svg";
 import Discord from "../../../assets/icons/discord.svg";
 import MB from "../../../assets/icons/metabank_logo_2.svg";
+import TextLoop from "react-text-loop";
 
 function NavContent() {
     const [isActive] = useState();
@@ -61,8 +62,24 @@ function NavContent() {
                 </div>
 
                 <div className="wallet-link">
-                    <p> Join Metabank Games </p>
-                    <p>Season 1 now!</p>
+                    <TextLoop adjustingSpeed={1000}>
+                        <span>
+                            <p> Join Metabank Games </p>
+                        </span>
+                        <span>
+                            <p> Award winners with </p>
+                        </span>
+                    </TextLoop>
+                </div>
+                <div className="wallet-link">
+                    <TextLoop adjustingSpeed={1000}>
+                        <span>
+                            <p>Season 1 now!</p>
+                        </span>
+                        <span>
+                            <p>Bitcoin, ETH, AVAX</p>
+                        </span>
+                    </TextLoop>
                 </div>
             </div>
 
