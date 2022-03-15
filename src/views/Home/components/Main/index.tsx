@@ -36,7 +36,7 @@ function Main() {
 
                 {/*<Airdrop />*/}
 
-                <Media />
+                {/*<Media />*/}
             </div>
         </div>
     );

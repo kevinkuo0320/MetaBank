@@ -4,6 +4,7 @@ import { SvgIcon, Link, Box, Popper, Fade } from "@material-ui/core";
 import { ReactComponent as Twitter } from "../../../../assets/icons/twitter.svg";
 import { ReactComponent as Discord } from "../../../../assets/icons/discord.svg";
 import { ReactComponent as Medium } from "../../../../assets/icons/medium.svg";
+import { ReactComponent as Media } from "../../../../assets/icons/dashboard.svg";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as MB } from "../../../../assets/icons/metabank_logo_2.svg";
 import { NavLink } from "react-router-dom";
@@ -59,6 +60,16 @@ function Header() {
                     >
                         Discord
                     </button>
+
+                    <button
+                        className="fontOthers"
+                        onClick={e => {
+                            e.preventDefault();
+                            window.open("https://vimeo.com/686695388");
+                        }}
+                    >
+                        Media
+                    </button>
                 </div>
             </div>
             <div className="landing-header-nav-wrap">
@@ -86,6 +97,11 @@ function Header() {
                                     <Link className="tooltip-item" href="https://dsc.gg/metabankfinance" target="_blank">
                                         <SvgIcon color="primary" component={Discord} />
                                         <p>Discord</p>
+                                    </Link>
+
+                                    <Link className="tooltip-item" href="https://vimeo.com/686695388" target="_blank">
+                                        <SvgIcon color="primary" component={Media} />
+                                        <p>Media</p>
                                     </Link>
                                 </div>
                             </Fade>
