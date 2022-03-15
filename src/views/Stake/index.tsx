@@ -119,7 +119,7 @@ function Stake() {
                                 }}
                             >
                                 <p className="data-row-name" style={{ textDecoration: "underline" }}>
-                                    Current APR : {isAppLoading ? <Skeleton width="80px" /> : <> 100000 % </>}
+                                    Current APR : {isAppLoading ? <Skeleton width="80px" /> : <> High Enough </>}
                                 </p>
                             </div>
                         </Grid>
