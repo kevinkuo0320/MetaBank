@@ -24,7 +24,7 @@ function Main() {
                     </div>
                 </Fade>
                 <div className="landing-main-help-text-wrap">
-                    <p>Join our discord channal to become whitelisted! </p>
+                    <p>Join our discord channel to become whitelisted! </p>
                 </div>
                 <div className="landing-main-help-text-wrap">
                     <p> IDO begins in: </p>
