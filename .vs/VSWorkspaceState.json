@@ -2,9 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\constants",
-    "\\src\\Root"
+    "\\src\\components",
+    "\\src\\components\\Header",
+    "\\src\\components\\Header\\time-menu",
+    "\\src\\components\\Loader",
+    "\\src\\components\\ViewBase",
+    "\\src\\views",
+    "\\src\\views\\IDO",
+    "\\src\\views\\Media"
   ],
-  "SelectedNode": "\\src\\constants\\addresses.ts",
+  "SelectedNode": "\\src\\components\\Drawer\\drawer-content\\drawer-content.scss",
   "PreviewInSolutionExplorer": false
 }

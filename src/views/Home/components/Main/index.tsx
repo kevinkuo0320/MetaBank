@@ -5,6 +5,7 @@ import IDO from "../../../IDO/index";
 import Timer from "../../../../components/Timer/Timer";
 import { Fade } from "react-reveal";
 import Media from "../../../Media/index";
+import Airdrop from "../../Airdrop";
 
 function Main() {
     return (
@@ -32,6 +33,8 @@ function Main() {
                 <Timer />
 
                 <IDO />
+
+                {/*<Airdrop />*/}
 
                 <Media />
             </div>

@@ -171,6 +171,7 @@ function Stake() {
                                                                 if (isPendingTxn(pendingTransactions, "staking")) return;
                                                                 onChangeStake("stake");
                                                             }}
+                                                            style={{ backgroundColor: "#c9333c" }}
                                                         >
                                                             <p>{txnButtonText(pendingTransactions, "staking", "Stake LP")}</p>
                                                         </div>
@@ -321,7 +322,7 @@ function Stake() {
                                             <button
                                                 style={{
                                                     fontSize: "20px",
-                                                    background: "rgba(255, 255, 255, 0.2)",
+                                                    backgroundColor: "#c9333c",
                                                     boxShadow: "0px 0px 10px rgba(44, 39, 109, 0.1)",
                                                     borderRadius: "10px",
                                                     padding: "30px 0px",
