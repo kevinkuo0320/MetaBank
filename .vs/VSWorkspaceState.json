@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\assets",
     "\\src\\components",
-    "\\src\\components\\Header",
-    "\\src\\components\\Header\\time-menu",
-    "\\src\\components\\Loader",
-    "\\src\\components\\ViewBase",
+    "\\src\\components\\Timer",
     "\\src\\views",
-    "\\src\\views\\IDO",
-    "\\src\\views\\Media"
+    "\\src\\views\\Home",
+    "\\src\\views\\Home\\components",
+    "\\src\\views\\Home\\components\\Main",
+    "\\src\\views\\IDO"
   ],
-  "SelectedNode": "\\src\\components\\Drawer\\drawer-content\\drawer-content.scss",
+  "SelectedNode": "\\src\\components\\Timer\\Timer.js",
   "PreviewInSolutionExplorer": false
 }

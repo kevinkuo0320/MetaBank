@@ -38,7 +38,7 @@ function Header() {
                             window.open("https://metabank-finance.gitbook.io/metabank-finance-litepaper/");
                         }}
                     >
-                        Documents
+                        Whitepaper
                     </button>
 
                     <button
@@ -86,7 +86,7 @@ function Header() {
 
                                     <Link className="tooltip-item" href="https://metabank-finance.gitbook.io/metabank-finance-litepaper/" target="_blank">
                                         <SvgIcon color="primary" component={Medium} />
-                                        <p>Document</p>
+                                        <p>Whitepaper</p>
                                     </Link>
 
                                     <Link className="tooltip-item" href="https://twitter.com/metabankfinance" target="_blank">
