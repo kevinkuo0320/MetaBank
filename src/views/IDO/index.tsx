@@ -1,91 +1,463 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Grid, InputAdornment, OutlinedInput, Zoom } from "@material-ui/core";
-import RebaseTimer from "../../components/RebaseTimer";
-import { trim } from "../../helpers";
 import { changeStake, changeApproval } from "../../store/slices/stake-thunk";
 import "./ido.scss";
+import { trim, shorten } from "../../helpers";
 import { useWeb3Context } from "../../hooks";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../store/slices/pending-txns-slice";
-import { Skeleton } from "@material-ui/lab";
 import { IReduxState } from "../../store/slices/state.interface";
 import { messages } from "../../constants/messages";
-import classnames from "classnames";
 import { warning } from "../../store/slices/messages-slice";
+import { JsonRpcProvider } from "@ethersproject/providers";
+import { ethers } from "ethers";
+import { MetaTokenSaleContract } from "./contract";
+import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction, useApiContract } from "react-moralis";
+import { Alert } from "@mui/material";
 
 function IDO() {
+    /*const SALE_ADDRESS = "0xa633677cBbb8b296B93DaFB0Ffb36DD3d442ce7E";
     const dispatch = useDispatch();
     const { provider, address, connect, chainID, checkWrongNetwork } = useWeb3Context();
+
+    const provider1 = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider1.getSigner();*/
+
+    //const saleContract = new ethers.Contract(SALE_ADDRESS, MetaTokenSaleContract, signer);
+    //const sold = saleContract.sold();
+    //const userAddress = signer.getAddress();
+
+    const dispatch = useDispatch();
+    const { provider, address, connect, chainID, checkWrongNetwork } = useWeb3Context();
+    const { Moralis, web3 } = useMoralis();
+    const Web3Api = useMoralisWeb3Api();
+    let options = {
+        chain: "avalanche testnet" as "avalanche testnet",
+        subdomain: undefined,
+        providerUrl: undefined,
+        addresses: ["0x938906904973341a545299db1f8bA2c7B95b82c5"],
+    };
+    const fetchNativeBalance = async () => {
+        const data = await Web3Api.token.getTokenMetadata(options);
+        console.log(data);
+    };
+
+    const abi = [
+        {
+            inputs: [
+                {
+                    internalType: "address",
+                    name: "newBuyer_",
+                    type: "address",
+                },
+            ],
+            name: "approveBuyer",
+            outputs: [
+                {
+                    internalType: "bool",
+                    name: "",
+                    type: "bool",
+                },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "address[]",
+                    name: "newBuyers_",
+                    type: "address[]",
+                },
+            ],
+            name: "approveBuyers",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "buyTokens",
+            outputs: [],
+            stateMutability: "payable",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "renounceOwnership",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "uint256",
+                    name: "_amount",
+                    type: "uint256",
+                },
+            ],
+            name: "setAmountBuyablePreSale",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "address",
+                    name: "newOwner",
+                    type: "address",
+                },
+            ],
+            name: "transferOwnership",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "uint256",
+                    name: "_presaleTimestamp",
+                    type: "uint256",
+                },
+                {
+                    internalType: "uint256",
+                    name: "pRate",
+                    type: "uint256",
+                },
+                {
+                    internalType: "address payable",
+                    name: "pWallet",
+                    type: "address",
+                },
+                {
+                    internalType: "contract IERC20",
+                    name: "pToken",
+                    type: "address",
+                },
+            ],
+            stateMutability: "nonpayable",
+            type: "constructor",
+        },
+        {
+            anonymous: false,
+            inputs: [
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "previousOwner",
+                    type: "address",
+                },
+                {
+                    indexed: true,
+                    internalType: "address",
+                    name: "newOwner",
+                    type: "address",
+                },
+            ],
+            name: "OwnershipTransferred",
+            type: "event",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "uint256",
+                    name: "time",
+                    type: "uint256",
+                },
+            ],
+            name: "resetTime",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "uint256",
+                    name: "_amount",
+                    type: "uint256",
+                },
+            ],
+            name: "setAmountBuyablePublicSale",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "uint256",
+                    name: "_amount",
+                    type: "uint256",
+                },
+                {
+                    internalType: "uint256",
+                    name: "publicRate",
+                    type: "uint256",
+                },
+            ],
+            name: "setRate",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+        },
+        {
+            stateMutability: "payable",
+            type: "receive",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "address",
+                    name: "buyer",
+                    type: "address",
+                },
+            ],
+            name: "amountBuyable",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "address",
+                    name: "",
+                    type: "address",
+                },
+            ],
+            name: "approvedBuyers",
+            outputs: [
+                {
+                    internalType: "bool",
+                    name: "",
+                    type: "bool",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [
+                {
+                    internalType: "address",
+                    name: "",
+                    type: "address",
+                },
+            ],
+            name: "invested",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "isEndSale",
+            outputs: [
+                {
+                    internalType: "bool",
+                    name: "",
+                    type: "bool",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "isPresale",
+            outputs: [
+                {
+                    internalType: "bool",
+                    name: "",
+                    type: "bool",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "isPublicSale",
+            outputs: [
+                {
+                    internalType: "bool",
+                    name: "",
+                    type: "bool",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "MAX_PRESALE_PER_ACCOUNT",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "MAX_SALE_PER_ACCOUNT",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "owner",
+            outputs: [
+                {
+                    internalType: "address",
+                    name: "",
+                    type: "address",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+        {
+            inputs: [],
+            name: "sold",
+            outputs: [
+                {
+                    internalType: "uint256",
+                    name: "",
+                    type: "uint256",
+                },
+            ],
+            stateMutability: "view",
+            type: "function",
+        },
+    ];
+
+    const contractProcessor = useWeb3ExecuteFunction();
+
+    const sendEth = async () => {
+        try {
+            await Moralis.Web3.enableWeb3();
+            const result = await Moralis.Web3.transfer({
+                type: "native",
+                amount: Moralis.Units.ETH("0.1"),
+                receiver: "0x0000000000000000000000000000000000000000",
+            });
+            console.log(result);
+            alert("Transfer of funds succeeded!");
+        } catch (err) {
+            console.error(err);
+            alert("Something went wrong");
+        }
+    };
+
+    const { runContractFunction, data } = useApiContract({
+        address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+        functionName: "balanceOf",
+        chain: "avalanche",
+        abi,
+        params: { address: address },
+    });
+
+    async function Fetch() {
+        runContractFunction();
+    }
+
+    let theoptions = {
+        contractAddress: "0xCE2209c4e27bA5EFF9f882c460C63c38f4C056E3",
+        functionName: "buyTokens",
+        abi: abi,
+        msgValue: Moralis.Units.ETH("0.1"),
+        params: {
+            beneficiary: "0xEaE204Fe72C0F4394C4590283DCC0a3E89A69388",
+        },
+    };
+
+    async function buy(val) {
+        if (quantity == "" || val <= 0) {
+            warning({ text: messages.before_ido });
+            alert("please input a valid number!!");
+        } else {
+            const web3 = await Moralis.enableWeb3();
+            const transaction = await Moralis.executeFunction({
+                contractAddress: "0xCE2209c4e27bA5EFF9f882c460C63c38f4C056E3",
+                functionName: "buyTokens",
+                abi: abi,
+                msgValue: Moralis.Units.ETH(val),
+                params: {},
+            });
+            const receipt = await transaction;
+            console.log(receipt);
+        }
+    }
+
+    const [balance, setBalance] = useState(0);
+
+    const [allowance, setAllowance] = useState(0);
 
     const [quantity, setQuantity] = useState<string>("");
 
     const isAppLoading = useSelector<IReduxState, boolean>(state => state.app.loading);
-    const currentIndex = useSelector<IReduxState, string>(state => {
-        return state.app.currentIndex;
-    });
-    const fiveDayRate = useSelector<IReduxState, number>(state => {
-        return state.app.fiveDayRate;
-    });
-    const timeBalance = useSelector<IReduxState, string>(state => {
-        return state.account.balances && state.account.balances.time;
-    });
-    const memoBalance = useSelector<IReduxState, string>(state => {
-        return state.account.balances && state.account.balances.memo;
-    });
-    const stakeAllowance = useSelector<IReduxState, number>(state => {
-        return state.account.staking && state.account.staking.time;
-    });
-    const unstakeAllowance = useSelector<IReduxState, number>(state => {
-        return state.account.staking && state.account.staking.memo;
-    });
-    const stakingRebase = useSelector<IReduxState, number>(state => {
-        return state.app.stakingRebase;
-    });
-    const stakingAPY = useSelector<IReduxState, number>(state => {
-        return state.app.stakingAPY;
-    });
-    const getLarryBalance = useSelector<IReduxState, string>(state => {
-        return state.app.larryBalance;
+
+    const isWhiteListed = useSelector<IReduxState, boolean>(state => {
+        return state.app.isWhitelisted;
     });
 
-    const pendingTransactions = useSelector<IReduxState, IPendingTxn[]>(state => {
-        return state.pendingTransactions;
+    const isPreSale = useSelector<IReduxState, boolean>(state => {
+        return state.app.isPreSale;
     });
 
-    console.log("test100", getLarryBalance);
+    const isPublicSale = useSelector<IReduxState, boolean>(state => {
+        return state.app.isPublicSale;
+    });
 
-    const setMax = () => {
-        setQuantity(timeBalance);
-    };
+    console.log(isPreSale, isPublicSale);
 
-    const onSeekApproval = async (token: string) => {
-        if (await checkWrongNetwork()) return;
+    const metaBalance = useSelector<IReduxState, number>(state => {
+        return state.app.metaBalance;
+    });
 
-        await dispatch(changeApproval({ address, token, provider, networkID: chainID }));
-    };
+    /*const amountBuyable = useSelector<IReduxState, number>(state => {
+        return state.app.canBuyAmount;
+    });*/
 
-    const onChangeStake = async (action: string) => {
-        if (await checkWrongNetwork()) return;
-        if (quantity === "" || parseFloat(quantity) === 0) {
-            dispatch(warning({ text: action === "stake" ? messages.before_stake : messages.before_unstake }));
-        } else {
-            await dispatch(changeStake({ address, action, value: String(quantity), provider, networkID: chainID }));
-            setQuantity("");
-        }
-    };
+    const theBalance = parseInt(trim(Number(metaBalance))) / 1000000000000000000;
 
-    const hasAllowance = useCallback(
-        token => {
-            if (token === "time") return stakeAllowance > 0;
-            return 0;
-        },
-        [stakeAllowance],
-    );
-
-    const trimmedMemoBalance = trim(Number(memoBalance), 6);
-    const trimmedStakingAPY = trim(stakingAPY * 100, 1);
-    const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-    const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * Number(trimmedMemoBalance), 6);
+    const publicPrice = 0.125;
+    const prePrice = 0.1;
+    const theprice = isPreSale ? prePrice : publicPrice;
+    const amount = isWhiteListed && isPreSale ? 600 : 200;
 
     return (
         <div className="stake-view">
@@ -93,21 +465,28 @@ function IDO() {
                 <div className="stake-card">
                     <Grid className="stake-card-grid" container direction="column" spacing={2}>
                         <div className="stake-card-header">
-                            <p className="stake-card-header-title">IDO Early Bird Pool 🧠</p>
+                            <p className="stake-card-header-title">IDO Early Bird Pool </p>
                         </div>
-
-                        {/*<div className="stake-card-header">
-                            <p className="stake-card-header-title">Your address is </p>
-                        </div>
-
                         <div className="stake-card-header">
-                            <p className="stake-card-header-title">Are you whitelisted? No </p>
-                        </div>*/}
+                            <p className=" stake-card-header-title">Are you whitelisted? {isWhiteListed ? <>Yes</> : <>No</>}</p>
+                        </div>
+                        <div className="stake-card-header">
+                            <p className=" stake-card-header-title">
+                                {isAppLoading ? (
+                                    <>checking your balance...please wait</>
+                                ) : (
+                                    <>
+                                        {" "}
+                                        You have {theBalance} MB, and you can buy {amount - theBalance} MB{" "}
+                                    </>
+                                )}
+                            </p>
+                        </div>
 
                         <div className="stake-card-area">
                             {!address && (
                                 <div className="stake-card-wallet-notification">
-                                    <div className="stake-card-wallet-connect-btn" /* onClick={connect}*/>
+                                    <div className="stake-card-wallet-connect-btn" onClick={connect}>
                                         <p>Connect Wallet</p>
                                     </div>
                                     <p className="stake-card-wallet-desc-text">Connect your wallet on launch date to deposit for the IDO Pool</p>
@@ -119,72 +498,36 @@ function IDO() {
                                         <div className="stake-card-action-row">
                                             <OutlinedInput
                                                 type="number"
-                                                placeholder="Amount"
+                                                placeholder="Enter Metabank Token Amount"
                                                 className="stake-card-action-input"
                                                 value={quantity}
                                                 onChange={e => setQuantity(e.target.value)}
                                                 labelWidth={0}
-                                                endAdornment={
-                                                    <InputAdornment position="end">
-                                                        <div onClick={setMax} className="stake-card-action-input-btn">
-                                                            <p>Max</p>
-                                                        </div>
-                                                    </InputAdornment>
-                                                }
+                                                endAdornment={<InputAdornment position="end"></InputAdornment>}
                                             />
 
                                             <div className="stake-card-tab-panel">
-                                                {address && hasAllowance("time") ? (
-                                                    <div
-                                                        className="stake-card-tab-panel-btn"
-                                                        onClick={() => {
-                                                            if (isPendingTxn(pendingTransactions, "staking")) return;
-                                                            onChangeStake("stake");
-                                                        }}
-                                                    >
-                                                        <p>{txnButtonText(pendingTransactions, "staking", "Buy MB")}</p>
-                                                    </div>
-                                                ) : (
-                                                    <div
-                                                        className="stake-card-tab-panel-btn"
-                                                        onClick={() => {
-                                                            if (isPendingTxn(pendingTransactions, "approve_staking")) return;
-                                                            onSeekApproval("time");
-                                                        }}
-                                                    >
-                                                        <p>{txnButtonText(pendingTransactions, "approve_staking", "Approve")}</p>
-                                                    </div>
-                                                )}
+                                                <div
+                                                    className="stake-card-tab-panel-btn"
+                                                    onClick={() => {
+                                                        buy(parseInt(quantity) * theprice);
+                                                    }}
+                                                >
+                                                    <p>Buy Token </p>
+                                                </div>
+                                            </div>
+                                            <div className="stake-card-tab-panel">
+                                                <div
+                                                    className="stake-card-tab-panel-btn"
+                                                    onClick={() => {
+                                                        Fetch();
+                                                    }}
+                                                >
+                                                    <p>Claim Airdrop {data} </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    {/* <div className="stake-user-data">
-                                        <div className="data-row">
-                                            <p className="data-row-name">Your Balance</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(timeBalance), 4)} MTT</>}</p>
-                                        </div>
-
-                                        <div className="data-row">
-                                            <p className="data-row-name">Your Staked Balance</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trimmedMemoBalance} MTT</>}</p>
-                                        </div>
-
-                                        <div className="data-row">
-                                            <p className="data-row-name">Next Reward Amount</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{nextRewardValue} MTT</>}</p>
-                                        </div>
-
-                                        <div className="data-row">
-                                            <p className="data-row-name">Next Reward Yield</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{stakingRebasePercentage}%</>}</p>
-                                        </div>
-
-                                        <div className="data-row">
-                                            <p className="data-row-name">ROI (5-Day Rate)</p>
-                                            <p className="data-row-value">{isAppLoading ? <Skeleton width="80px" /> : <>{trim(Number(fiveDayRate) * 100, 4)}%</>}</p>
-                                        </div>
-                                    </div> */}
                                 </div>
                             )}
                         </div>

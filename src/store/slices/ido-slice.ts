@@ -10,62 +10,6 @@ import { warning, success, info, error } from "../../store/slices/messages-slice
 import { messages } from "../../constants/messages";
 import { getGasPrice } from "../../helpers/get-gas-price";
 
-interface IChangeApproval {
-    token: string;
-    provider: StaticJsonRpcProvider | JsonRpcProvider;
-    address: string;
-    networkID: Networks;
-}
-
-export const changeApproval = createAsyncThunk("stake/changeApproval", async ({ token, provider, address, networkID }: IChangeApproval, { dispatch }) => {
-    if (!provider) {
-        dispatch(warning({ text: messages.please_connect_wallet }));
-        return;
-    }
-    const addresses = getAddresses(networkID);
-
-    const signer = provider.getSigner();
-    const timeContract = new ethers.Contract(addresses.TIME_ADDRESS, TimeTokenContract, signer);
-    const memoContract = new ethers.Contract(addresses.MEMO_ADDRESS, MemoTokenContract, signer);
-
-    // const metaContract = new ethers.Contract(addresses.STAKE_ADDRESS, StakeContract, signer);
-
-    let approveTx;
-    try {
-        const gasPrice = await getGasPrice(provider);
-
-        if (token === "time") {
-            approveTx = await timeContract.approve(addresses.STAKING_HELPER_ADDRESS, ethers.constants.MaxUint256, { gasPrice });
-        }
-
-        const text = "Approve " + (token === "time" ? "Staking" : "Unstaking");
-        const pendingTxnType = token === "time" ? "approve_staking" : "approve_unstaking";
-
-        dispatch(fetchPendingTxns({ txnHash: approveTx.hash, text, type: pendingTxnType }));
-        dispatch(success({ text: messages.tx_successfully_send }));
-        await approveTx.wait();
-    } catch (err: any) {
-        dispatch(error({ text: messages.something_wrong, error: err.message }));
-        return;
-    } finally {
-        if (approveTx) {
-            dispatch(clearPendingTxn(approveTx.hash));
-        }
-    }
-    console.log(address);
-    const stakeAllowance = await timeContract.allowance(address, addresses.STAKING_HELPER_ADDRESS);
-    const unstakeAllowance = await memoContract.allowance(address, addresses.STAKING_ADDRESS);
-
-    return dispatch(
-        fetchAccountSuccess({
-            staking: {
-                timeStake: Number(stakeAllowance),
-                memoUnstake: Number(unstakeAllowance),
-            },
-        }),
-    );
-});
-
 interface IChangeStake {
     action: string;
     value: string;

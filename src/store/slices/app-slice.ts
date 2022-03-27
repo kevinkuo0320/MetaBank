@@ -1,27 +1,33 @@
 import { ethers } from "ethers";
 import { getAddresses } from "../../constants";
-import { StakingContract, MemoTokenContract, TimeTokenContract, LarryContract } from "../../abi";
+import { StakingContract, MemoTokenContract, TimeTokenContract, LarryContract, MetaTokenSaleContract, MetaTokenContract } from "../../abi";
 import { setAll } from "../../helpers";
 import { createSlice, createSelector, createAsyncThunk } from "@reduxjs/toolkit";
-import { JsonRpcProvider } from "@ethersproject/providers";
+import { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 import { getMarketPrice, getTokenPrice } from "../../helpers";
 import { RootState } from "../store";
 import allBonds from "../../helpers/bond";
+import { useWeb3Context, useAddress } from "../../hooks";
 
 interface ILoadAppDetails {
     networkID: number;
     provider: JsonRpcProvider;
+    address: string;
 }
 
 export const loadAppDetails = createAsyncThunk(
     "app/loadAppDetails",
     //@ts-ignore
-    async ({ networkID, provider }: ILoadAppDetails) => {
+    async ({ networkID, provider, address }: ILoadAppDetails) => {
         const mimPrice = getTokenPrice("MIM");
         const addresses = getAddresses(networkID);
 
         const ohmPrice = getTokenPrice("OHM");
         const ohmAmount = 1512.12854088 * ohmPrice;
+
+        const provider1 = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider1.getSigner();
+        const userAddress = await signer.getAddress();
 
         const stakingContract = new ethers.Contract(addresses.STAKING_ADDRESS, StakingContract, provider);
         const currentBlock = await provider.getBlockNumber();
@@ -30,11 +36,20 @@ export const loadAppDetails = createAsyncThunk(
         const timeContract = new ethers.Contract(addresses.TIME_ADDRESS, TimeTokenContract, provider);
         const larryContract = new ethers.Contract(addresses.LARRY_ADDRESS, LarryContract, provider);
 
-        const marketPrice = ((await getMarketPrice(networkID, provider)) / Math.pow(10, 9)) * mimPrice;
+        //meta part contract ----------------------------------------------------
+        const metaSaleContract = new ethers.Contract(addresses.META_TOKEN_SALE_ADDRESS, MetaTokenSaleContract, provider);
+        const metaTokenContract = new ethers.Contract(addresses.META_TOKEN, MetaTokenContract, provider);
+        const metaBalance = await metaTokenContract.balanceOf(userAddress);
+        const isWhitelisted = await metaSaleContract.approvedBuyers(userAddress);
+        const isPublicSale = await metaSaleContract.isPublicSale();
+        const isPreSale = await metaSaleContract.isPresale();
+        //const canBuyAmount = await metaSaleContract.amountBuyable(userAddress);
 
+        //------------------------------------------------------------------------
+        const marketPrice = ((await getMarketPrice(networkID, provider)) / Math.pow(10, 9)) * mimPrice;
         const totalSupply = (await timeContract.totalSupply()) / Math.pow(10, 9);
         const circSupply = (await memoContract.circulatingSupply()) / Math.pow(10, 9);
-
+        const larryBalance = await metaTokenContract.owner();
         const stakingTVL = circSupply * marketPrice;
         const marketCap = totalSupply * marketPrice;
 
@@ -59,8 +74,16 @@ export const loadAppDetails = createAsyncThunk(
         const stakingRebase = stakingReward / circ;
         const fiveDayRate = Math.pow(1 + stakingRebase, 5 * 3) - 1;
         const stakingAPY = Math.pow(1 + stakingRebase, 365 * 3) - 1;
-        const larryBalance = await larryContract.owner();
-        console.log(larryBalance, "test");
+        // const larryBalance = await larryContract.owner();
+
+        const sold = await metaSaleContract.sold();
+        const max_sale = await metaSaleContract.MAX_SALE_PER_ACCOUNT();
+        //const approveContract = await metaSaleContract.approvedBuyers(userAddress);
+        const balance = await signer.getBalance();
+        /* console.log(balance);
+        console.log(approveContract);
+        console.log(sold, "sold");
+        console.log(max_sale, "max_sale");*/
 
         const currentIndex = await stakingContract.index();
         const nextRebase = epoch.endTime;
@@ -85,6 +108,13 @@ export const loadAppDetails = createAsyncThunk(
             nextRebase,
             rfv,
             runway,
+            balance,
+            userAddress,
+            metaBalance,
+            isWhitelisted,
+            isPublicSale,
+            isPreSale,
+            //canBuyAmount,
         };
     },
 );
@@ -112,6 +142,16 @@ export interface IAppSlice {
     totalSupply: number;
     rfv: number;
     runway: number;
+    sold: number;
+    max_sale: number;
+    approveContract: boolean;
+    userAddress: string;
+    balance: number;
+    metaBalance: number;
+    isWhitelisted: boolean;
+    isPublicSale: boolean;
+    isPreSale: boolean;
+    canBuyAmount: number;
 }
 
 const appSlice = createSlice({

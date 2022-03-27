@@ -40,7 +40,7 @@ function TimeMenu() {
     const addresses = getAddresses(networkID);
 
     const MEMO_ADDRESS = addresses.MEMO_ADDRESS;
-    const TIME_ADDRESS = addresses.TIME_ADDRESS;
+    const MB_ADDRESS = addresses.META_TOKEN;
 
     const handleClick = (event: any) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
@@ -58,8 +58,7 @@ function TimeMenu() {
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={200}>
                         <div className="tooltip">
-                            <Link className="tooltip-item">
-                                {/*href={`https://www.traderjoexyz.com/#/trade?inputCurrency=&outputCurrency=${ADDRESS}`} target="_blank"*/}
+                            <Link className="tooltip-item" href={`https://traderjoexyz.com/pool/0x40ac18c3e7c969aedc8bc753d1f257c5911c4ad0/AVAX#/`} target="_blank">
                                 <p>Buy MB on Trader Joe</p>
                             </Link>
 
@@ -68,7 +67,7 @@ function TimeMenu() {
                                     <div className="divider" />
                                     {/*<p className="add-tokens-title">ADD TOKEN TO WALLET</p>
                                     <div className="divider" />*/}
-                                    <div className="tooltip-item" /*onClick={addTokenToWallet("TIME", TIME_ADDRESS)}*/>
+                                    <div className="tooltip-item" /*onClick={addTokenToWallet("MB", MB_ADDRESS)}*/>
                                         <p>Add MB to Wallet</p>
                                     </div>
                                 </div>

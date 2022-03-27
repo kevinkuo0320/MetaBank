@@ -10,17 +10,17 @@ function App() {
 
     const { provider, chainID, connected } = useWeb3Context();
 
-    const loadApp = useCallback(
+    /*const loadApp = useCallback(
         loadProvider => {
             dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
         },
         [connected],
-    );
+    );*/
 
-    useEffect(() => {
+    /*  useEffect(() => {
         loadApp(provider);
     }, []);
-
+*/
     return <Landing />;
 }
 

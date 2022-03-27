@@ -4,13 +4,13 @@
     "\\src",
     "\\src\\assets",
     "\\src\\components",
-    "\\src\\components\\Timer",
-    "\\src\\views",
-    "\\src\\views\\Home",
-    "\\src\\views\\Home\\components",
-    "\\src\\views\\Home\\components\\Main",
-    "\\src\\views\\IDO"
+    "\\src\\components\\Drawer",
+    "\\src\\components\\Drawer\\drawer-content",
+    "\\src\\components\\Header",
+    "\\src\\components\\Header\\time-menu",
+    "\\src\\constants",
+    "\\src\\Root"
   ],
-  "SelectedNode": "\\src\\components\\Timer\\Timer.js",
+  "SelectedNode": "\\src\\views\\Stake\\index.tsx",
   "PreviewInSolutionExplorer": false
 }

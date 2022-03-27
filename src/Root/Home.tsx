@@ -8,11 +8,11 @@ import "./style.scss";
 function App() {
     const dispatch = useDispatch();
 
-    const { provider, chainID, connected } = useWeb3Context();
+    const { provider, chainID, connected, address } = useWeb3Context();
 
     const loadApp = useCallback(
         loadProvider => {
-            dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+            dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider, address: address }));
         },
         [connected],
     );

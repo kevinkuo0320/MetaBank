@@ -12,4 +12,5 @@ export const messages = {
     nothing_to_claim: "Nothing to claim",
     something_wrong: "Something went wrong",
     switch_to_avalanche: "Switch to Avalanche?",
+    before_ido: "You need to enter a valid value",
 };

@@ -15,8 +15,8 @@ import "./style.scss";
 function StakeApp() {
     const dispatch = useDispatch();
 
-    const { connect, provider, hasCachedProvider, chainID, connected } = useWeb3Context();
-    const address = useAddress();
+    const { connect, provider, hasCachedProvider, chainID, connected, address } = useWeb3Context();
+    const accountAddress = useAddress();
 
     const [walletChecked, setWalletChecked] = useState(false);
 
@@ -48,7 +48,7 @@ function StakeApp() {
 
     const loadApp = useCallback(
         loadProvider => {
-            dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider }));
+            dispatch(loadAppDetails({ networkID: chainID, provider: loadProvider, address: address }));
             bonds.map(bond => {
                 dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
             });
