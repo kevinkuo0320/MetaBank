@@ -16,7 +16,7 @@ const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async ()
                 params: {
                     type: "ERC20",
                     options: {
-                        address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+                        address: "0x7720A369BC7b818616b8D6f0D0015bD1C8eba954",
                         symbol: "MB",
                         decimals: 18,
                         image: tokenImage,
@@ -58,7 +58,7 @@ function TimeMenu() {
                 {({ TransitionProps }) => (
                     <Fade {...TransitionProps} timeout={200}>
                         <div className="tooltip">
-                            <Link className="tooltip-item" href={`https://traderjoexyz.com/pool/0x40ac18c3e7c969aedc8bc753d1f257c5911c4ad0/AVAX#/`} target="_blank">
+                            <Link className="tooltip-item" href={`https://traderjoexyz.com/`} target="_blank">
                                 <p>Buy MB on Trader Joe</p>
                             </Link>
 
