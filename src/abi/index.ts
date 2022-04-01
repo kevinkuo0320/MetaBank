@@ -16,3 +16,6 @@ export { abi as StakingContract } from "./StakingContract.json";
 export { abi as StakingHelperContract } from "./StakingHelperContract.json";
 export { abi as TreasuryContract } from "./TreasuryContract.json";
 export { abi as MetaTokenContract } from "./MetaToken.json";
+export { abi as lpToken } from "./lpToken.json";
+export { abi as MetaStaking } from "./MetaStaking.json";
+export { abi as MetaAirdrop } from "./MetaAirdrop.json";

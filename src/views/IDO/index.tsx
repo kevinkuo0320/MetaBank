@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Grid, InputAdornment, OutlinedInput, Zoom } from "@material-ui/core";
 import { changeStake, changeApproval } from "../../store/slices/stake-thunk";
 import "./ido.scss";
-import { trim, shorten } from "../../helpers";
+import { trim, shorten, getTokenUrl } from "../../helpers";
 import { useWeb3Context } from "../../hooks";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../store/slices/pending-txns-slice";
 import { IReduxState } from "../../store/slices/state.interface";
@@ -14,6 +14,7 @@ import { ethers } from "ethers";
 import { MetaTokenSaleContract } from "./contract";
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction, useApiContract } from "react-moralis";
 import { Alert } from "@mui/material";
+import { MetaAirdrop } from "../../abi";
 
 function IDO() {
     /*const SALE_ADDRESS = "0xa633677cBbb8b296B93DaFB0Ffb36DD3d442ce7E";
@@ -383,7 +384,7 @@ function IDO() {
     };
 
     const { runContractFunction, data } = useApiContract({
-        address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+        address: "0x7720A369BC7b818616b8D6f0D0015bD1C8eba954",
         functionName: "balanceOf",
         chain: "avalanche",
         abi,
@@ -411,7 +412,7 @@ function IDO() {
         } else {
             const web3 = await Moralis.enableWeb3();
             const transaction = await Moralis.executeFunction({
-                contractAddress: "0xCE2209c4e27bA5EFF9f882c460C63c38f4C056E3",
+                contractAddress: "0x39fCC8A42d85cfdfc25a7cD983A57196035e022b",
                 functionName: "buyTokens",
                 abi: abi,
                 msgValue: Moralis.Units.ETH(val),
@@ -420,6 +421,18 @@ function IDO() {
             const receipt = await transaction;
             console.log(receipt);
         }
+    }
+
+    async function claim() {
+        const web3 = await Moralis.enableWeb3();
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0xec96Be4E758f4359b3F74F8ee9F37A3451f1eBcD",
+            functionName: "claim",
+            abi: MetaAirdrop,
+            params: {},
+        });
+        const receipt = await transaction;
+        console.log(receipt);
     }
 
     const [balance, setBalance] = useState(0);
@@ -457,7 +470,30 @@ function IDO() {
     const publicPrice = 0.125;
     const prePrice = 0.1;
     const theprice = isPreSale ? prePrice : publicPrice;
-    const amount = isWhiteListed && isPreSale ? 600 : 200;
+    const amount = isWhiteListed && isPreSale ? 700 : 500;
+
+    const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async () => {
+        const tokenImage = getTokenUrl(tokenSymbol.toLowerCase());
+
+        if (window.ethereum) {
+            try {
+                await window.ethereum.request({
+                    method: "wallet_watchAsset",
+                    params: {
+                        type: "ERC20",
+                        options: {
+                            address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+                            symbol: "MB",
+                            decimals: 18,
+                            image: tokenImage,
+                        },
+                    },
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
 
     return (
         <div className="stake-view">
@@ -517,13 +553,20 @@ function IDO() {
                                                 </div>
                                             </div>
                                             <div className="stake-card-tab-panel">
+                                                <div className="stake-card-tab-panel-btn" onClick={addTokenToWallet("MEMO", "")}>
+                                                    <p>Add MB to Wallet </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="stake-card-action-row" style={{ justifyContent: "center" }}>
+                                            <div className="stake-card-tab-panel">
                                                 <div
                                                     className="stake-card-tab-panel-btn"
                                                     onClick={() => {
-                                                        Fetch();
+                                                        claim();
                                                     }}
                                                 >
-                                                    <p>Claim Airdrop {data} </p>
+                                                    <p>Claim Airdrop </p>
                                                 </div>
                                             </div>
                                         </div>

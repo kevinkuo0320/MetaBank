@@ -15,6 +15,9 @@ import { warning } from "../../store/slices/messages-slice";
 import Background from "../Landing/components/Background";
 import Header from "../Home/components/Header";
 import { Link } from "@material-ui/core";
+import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction, useApiContract } from "react-moralis";
+import { getGasPrice } from "../../helpers/get-gas-price";
+import { lpToken, MetaStaking } from "../../abi";
 
 function Stake() {
     const dispatch = useDispatch();
@@ -28,15 +31,16 @@ function Stake() {
     const currentIndex = useSelector<IReduxState, string>(state => {
         return state.app.currentIndex;
     });
-    const fiveDayRate = useSelector<IReduxState, number>(state => {
+    /*    const fiveDayRate = useSelector<IReduxState, number>(state => {
         return state.app.fiveDayRate;
-    });
-    const timeBalance = useSelector<IReduxState, string>(state => {
+    });*/
+    /*    const timeBalance = useSelector<IReduxState, string>(state => {
         return state.account.balances && state.account.balances.time;
-    });
-    const memoBalance = useSelector<IReduxState, string>(state => {
+    });*/
+    /*   const memoBalance = useSelector<IReduxState, string>(state => {
         return state.account.balances && state.account.balances.memo;
-    });
+    });*/
+
     const stakeAllowance = useSelector<IReduxState, number>(state => {
         return state.account.staking && state.account.staking.time;
     });
@@ -49,21 +53,16 @@ function Stake() {
     const stakingAPY = useSelector<IReduxState, number>(state => {
         return state.app.stakingAPY;
     });
-    const getLarryBalance = useSelector<IReduxState, string>(state => {
-        return state.app.larryBalance;
-    });
 
     const pendingTransactions = useSelector<IReduxState, IPendingTxn[]>(state => {
         return state.pendingTransactions;
     });
 
-    console.log("test100", getLarryBalance);
-
     const setMax = () => {
         if (view === 0) {
-            setQuantity(timeBalance);
+            setQuantity("");
         } else {
-            setQuantity(memoBalance);
+            setQuantity("");
         }
     };
 
@@ -97,10 +96,82 @@ function Stake() {
         setQuantity("");
     };
 
-    const trimmedMemoBalance = trim(Number(memoBalance), 6);
+    //const trimmedMemoBalance = trim(Number(memoBalance), 6);
     const trimmedStakingAPY = trim(stakingAPY * 100, 1);
-    const stakingRebasePercentage = trim(stakingRebase * 100, 4);
-    const nextRewardValue = trim((Number(stakingRebasePercentage) / 100) * Number(trimmedMemoBalance), 6);
+
+    const { Moralis, web3 } = useMoralis();
+    const Web3Api = useMoralisWeb3Api();
+
+    const lp_abi = lpToken;
+
+    async function approve(stakingAmount) {
+        const web3 = await Moralis.enableWeb3();
+        //const gasPrice = await getGasPrice(provider);
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0x6bf6f42c2a495c83d526c5055189ed60b7fab7c2",
+            functionName: "approve",
+            abi: lp_abi,
+            //msgValue : parseInt(trim(Number(gasPrice))).toString,
+            params: { spender: "0xEaE204Fe72C0F4394C4590283DCC0a3E89A69388", value: 1 },
+        });
+        const receipt = await transaction;
+        console.log(receipt);
+    }
+
+    async function hasLpAllowance(userAddress) {
+        const web3 = await Moralis.enableWeb3();
+        const gasPrice = await getGasPrice(provider);
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0x6bf6f42c2a495c83d526c5055189ed60b7fab7c2",
+            functionName: "allowance",
+            abi: lp_abi,
+            params: { owner: "0x21CAcb0D6A99df8704D49f2671e12CBF5F8b165C", spender: address },
+        });
+        const receipt = await transaction;
+        console.log(receipt);
+    }
+
+    async function stake(stakingAmount) {
+        const web3 = await Moralis.enableWeb3();
+
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0x6bf6f42c2a495c83d526c5055189ed60b7fab7c2",
+            functionName: "approve",
+            abi: MetaStaking,
+            //msgValue: parseInt(trim(Number(gasPrice))).toString,
+            params: { amount: stakingAmount },
+        });
+        const receipt = await transaction;
+        console.log(receipt);
+    }
+
+    async function unstake(stakingAmount) {
+        const web3 = await Moralis.enableWeb3();
+        const gasPrice = await getGasPrice(provider);
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0x6bf6f42c2a495c83d526c5055189ed60b7fab7c2",
+            functionName: "approve",
+            abi: MetaStaking,
+            //msgValue: parseInt(trim(Number(gasPrice))).toString,
+            params: { amount: stakingAmount },
+        });
+        const receipt = await transaction;
+        console.log(receipt);
+    }
+
+    async function claim(amount) {
+        const web3 = await Moralis.enableWeb3();
+        const gasPrice = await getGasPrice(provider);
+        const transaction = await Moralis.executeFunction({
+            contractAddress: "0x6bf6f42c2a495c83d526c5055189ed60b7fab7c2",
+            functionName: "approve",
+            abi: MetaStaking,
+            //msgValue: parseInt(trim(Number(gasPrice))).toString,
+            params: { amount: amount },
+        });
+        const receipt = await transaction;
+        console.log(receipt);
+    }
 
     return (
         <div className="stake-view">
@@ -168,8 +239,9 @@ function Stake() {
                                                         <div
                                                             className="stake-card-tab-panel-btn"
                                                             onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "staking")) return;
-                                                                onChangeStake("stake");
+                                                                /*if (isPendingTxn(pendingTransactions, "staking")) return;
+                                                                onChangeStake("stake");*/
+                                                                approve(1);
                                                             }}
                                                             style={{ backgroundColor: "#c9333c" }}
                                                         >
@@ -179,8 +251,9 @@ function Stake() {
                                                         <div
                                                             className="stake-card-tab-panel-btn"
                                                             onClick={() => {
-                                                                if (isPendingTxn(pendingTransactions, "approve_staking")) return;
-                                                                onSeekApproval("time");
+                                                                /*if (isPendingTxn(pendingTransactions, "approve_staking")) return;
+                                                                onSeekApproval("time");*/
+                                                                approve(1);
                                                             }}
                                                         >
                                                             <p>{txnButtonText(pendingTransactions, "approve_staking", "Approve")}</p>

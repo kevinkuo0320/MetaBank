@@ -16,9 +16,9 @@ const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async ()
                 params: {
                     type: "ERC20",
                     options: {
-                        address: tokenAddress,
-                        symbol: tokenSymbol,
-                        decimals: TOKEN_DECIMALS,
+                        address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+                        symbol: "MB",
+                        decimals: 18,
                         image: tokenImage,
                     },
                 },
@@ -67,7 +67,7 @@ function TimeMenu() {
                                     <div className="divider" />
                                     {/*<p className="add-tokens-title">ADD TOKEN TO WALLET</p>
                                     <div className="divider" />*/}
-                                    <div className="tooltip-item" /*onClick={addTokenToWallet("MB", MB_ADDRESS)}*/>
+                                    <div className="tooltip-item" onClick={addTokenToWallet("MEMO", MB_ADDRESS)}>
                                         <p>Add MB to Wallet</p>
                                     </div>
                                 </div>
