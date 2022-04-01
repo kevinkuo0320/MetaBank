@@ -482,7 +482,7 @@ function IDO() {
                     params: {
                         type: "ERC20",
                         options: {
-                            address: "0x40Ac18C3E7c969aeDC8bc753D1F257c5911C4aD0",
+                            address: "0x7720A369BC7b818616b8D6f0D0015bD1C8eba954",
                             symbol: "MB",
                             decimals: 18,
                             image: tokenImage,
