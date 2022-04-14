@@ -27,12 +27,16 @@ function Main() {
                     <p>Join our discord channel to become whitelisted! </p>
                 </div>
                 <div className="landing-main-help-text-wrap">
-                    <p> IDO begins in: </p>
+                    <p> New IDO begins in: </p>
                 </div>
 
                 <Timer />
 
                 <IDO />
+
+                <div>
+                    <img src="./meta_info.jpg" style={{ width: "50vw", padding: 10 }} />
+                </div>
 
                 {/*<Airdrop />*/}
 

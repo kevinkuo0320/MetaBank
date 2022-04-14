@@ -8,13 +8,13 @@ import { useWeb3Context } from "../../hooks";
 import { IPendingTxn, isPendingTxn, txnButtonText } from "../../store/slices/pending-txns-slice";
 import { IReduxState } from "../../store/slices/state.interface";
 import { messages } from "../../constants/messages";
-import { warning } from "../../store/slices/messages-slice";
+//import { warning } from "../../store/slices/messages-slice";
 import { JsonRpcProvider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import { MetaTokenSaleContract } from "./contract";
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction, useApiContract } from "react-moralis";
-import { Alert } from "@mui/material";
 import { MetaAirdrop } from "../../abi";
+import { warning, success, info, error } from "../../store/slices/messages-slice";
 
 function IDO() {
     /*const SALE_ADDRESS = "0xa633677cBbb8b296B93DaFB0Ffb36DD3d442ce7E";
@@ -407,7 +407,7 @@ function IDO() {
 
     async function buy(val) {
         if (quantity == "" || val <= 0) {
-            warning({ text: messages.before_ido });
+            //warning({ text: messages.before_ido });
             alert("please input a valid number!!");
         } else {
             const web3 = await Moralis.enableWeb3();
@@ -419,6 +419,7 @@ function IDO() {
                 params: {},
             });
             const receipt = await transaction;
+            alert("Purchase Success! Please refresh the page to view your new balance");
             console.log(receipt);
         }
     }
@@ -455,7 +456,7 @@ function IDO() {
         return state.app.isPublicSale;
     });
 
-    console.log(isPreSale, isPublicSale);
+    //console.log(isPreSale, isPublicSale);
 
     const metaBalance = useSelector<IReduxState, number>(state => {
         return state.app.metaBalance;
@@ -467,10 +468,19 @@ function IDO() {
 
     const theBalance = parseInt(trim(Number(metaBalance))) / 1000000000000000000;
 
-    const publicPrice = 0.125;
-    const prePrice = 0.1;
+    const publicPrice = 0.00909091;
+    const prePrice = 0.00666667;
     const theprice = isPreSale ? prePrice : publicPrice;
-    const amount = isWhiteListed && isPreSale ? 700 : 500;
+    const amount = isWhiteListed && isPreSale ? 80000 : 50000;
+    const [publicSale, setPublicSale] = useState(true);
+    const [preSale, setPreSale] = useState(true);
+
+    useEffect(() => {
+        setPreSale(isPreSale);
+        setPublicSale(isPublicSale);
+        console.log(preSale);
+        console.log(publicSale);
+    });
 
     const addTokenToWallet = (tokenSymbol: string, tokenAddress: string) => async () => {
         const tokenImage = getTokenUrl(tokenSymbol.toLowerCase());
@@ -501,10 +511,20 @@ function IDO() {
                 <div className="stake-card">
                     <Grid className="stake-card-grid" container direction="column" spacing={2}>
                         <div className="stake-card-header">
-                            <p className="stake-card-header-title">IDO Early Bird Pool </p>
+                            <p className="stake-card-header-title">
+                                IDO Pool Status:
+                                {isAppLoading ? (
+                                    <> checking...</>
+                                ) : (
+                                    <> {publicSale || preSale ? <> {publicSale ? <> Public Sale </> : <> Whitelisted Sale Only </>}</> : <> Sale has not started yet</>} </>
+                                )}
+                            </p>
                         </div>
                         <div className="stake-card-header">
-                            <p className=" stake-card-header-title">Are you whitelisted? {isWhiteListed ? <>Yes</> : <>No</>}</p>
+                            <p className=" stake-card-header-title">
+                                Are you whitelisted?
+                                {isAppLoading ? <> checking...</> : <> {isWhiteListed ? <>Yes</> : <>No</>} </>}
+                            </p>
                         </div>
                         <div className="stake-card-header">
                             <p className=" stake-card-header-title">
@@ -512,8 +532,13 @@ function IDO() {
                                     <>checking your balance...please wait</>
                                 ) : (
                                     <>
-                                        {" "}
-                                        You have {theBalance} MB, and you can buy {amount - theBalance} MB{" "}
+                                        {publicSale && isWhiteListed ? (
+                                            <> Whitelisted buyers not allowed to buy in public sale </>
+                                        ) : (
+                                            <>
+                                                You have {theBalance} MB, and you can buy {amount - theBalance} MB{" "}
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </p>

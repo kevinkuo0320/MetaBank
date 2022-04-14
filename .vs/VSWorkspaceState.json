@@ -2,15 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\assets",
-    "\\src\\components",
-    "\\src\\components\\Drawer",
-    "\\src\\components\\Drawer\\drawer-content",
-    "\\src\\components\\Header",
-    "\\src\\components\\Header\\time-menu",
-    "\\src\\constants",
-    "\\src\\Root"
+    "\\src\\abi",
+    "\\src\\views",
+    "\\src\\views\\Home",
+    "\\src\\views\\Home\\components",
+    "\\src\\views\\Home\\components\\Main",
+    "\\src\\views\\IDO",
+    "\\src\\views\\Landing\\components",
+    "\\src\\views\\Landing\\components\\Main"
   ],
-  "SelectedNode": "\\src\\views\\Stake\\index.tsx",
+  "SelectedNode": "\\src\\views\\IDO\\index.tsx",
   "PreviewInSolutionExplorer": false
 }
